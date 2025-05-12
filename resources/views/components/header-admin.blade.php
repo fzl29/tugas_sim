@@ -2,33 +2,6 @@
     <h1 class="text-lg font-raleway font-semibold text-light3 dark:text-dark3">Selamat Datang, <span>{{ Auth::user()->name }}</span></h1>
     <div class="flex items-center gap-3">
 
-        {{-- ======= Cart Item Section ======= --}}
-        <div class="relative">
-            <button id="cartBtn" class="cursor-pointer hover:text-light1 dark:hover:text-dark1 mt-1">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="21" height="21"><rect width="256" height="256" fill="none" /> <path d="M188,184H91.17a16,16,0,0,1-15.74-13.14L48.73,24H24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" /> <circle cx="92" cy="204" r="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" /> <circle cx="188" cy="204" r="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" /> <path d="M70.55,144H196.1a16,16,0,0,0,15.74-13.14L224,64H56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" /></svg>
-            </button>
-            <div id="cartMenu" class="hidden p-3 absolute -right-3 mt-2 w-80 bg-light7 dark:bg-dark7 border border-light5 dark:border-dark5 rounded-md shadow-lg z-50 text-sm">
-                <p class="pb-2 mb-3 font-raleway text-[16px] text-center font-semibold text-light1 dark:text-dark1 border-b border-light5 dark:border-dark5">Keranjang Buku</p>
-                <ul class="space-y-3 max-h-52 overflow-y-auto">
-                    <li class="flex justify-between items-center border-b border-light5 dark:border-dark5 pb-3">
-                        <div>
-                            <p class="font-medium text-light3 dark:text-dark3">Belajar Laravel 12</p>
-                            <p class="text-xs text-light4 dark:text-dark4">Kategori: Pemrograman</p>
-                        </div>
-                        <button class="px-4 py-1 cursor-pointer rounded-md bg-red-500 text-light7 hover:bg-red-700 text-xs transition-all duration-200">Hapus</button>
-                    </li>
-                    <li class="flex justify-between items-center border-b border-light5 dark:border-dark5 pb-3">
-                        <div>
-                            <p class="font-medium text-light3 dark:text-dark3">Filsafat Ilmu</p>
-                            <p class="text-xs text-light4 dark:text-dark4">Kategori: Umum</p>
-                        </div>
-                        <button class="px-4 py-1 cursor-pointer rounded-md bg-red-500 text-light7 hover:bg-red-700 text-xs transition-all duration-200">Hapus</button>
-                    </li>
-                </ul>
-                <button class="mt-3 w-full font-raleway py-2 text-sm font-semibold rounded-md cursor-pointer bg-light1 text-light7 hover:bg-light2 dark:bg-dark1 dark:text-dark7 dark:hover:bg-dark2 transition-all duration-200">Ajukan Pinjam</button>
-            </div>
-        </div> {{-- ======= End Cart Item Section ======= --}}
-
         {{-- ======= Notification Section ======= --}}
         <div class="relative">
             <button id="notifBtn" class="cursor-pointer hover:text-light1 dark:hover:text-dark1 mt-[5px]">

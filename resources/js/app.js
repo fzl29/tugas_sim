@@ -1,6 +1,82 @@
 import './bootstrap';
 
 /* ------------------------------ 
+    Alert Hide Otomatis   
+--------------------------------- */
+document.addEventListener('DOMContentLoaded', function () {
+    const alerts = document.querySelectorAll('.mt-5');
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.style.transition = 'opacity 0.5s ease';
+            alert.style.opacity = '0';
+            setTimeout(() => {
+                alert.remove();
+            }, 500); 
+        }, 2500); 
+    });
+});
+
+
+/* ------------------------------ 
+    Profile Handle Edit, Cancel & Update Button   
+--------------------------------- */
+document.addEventListener('DOMContentLoaded', () => {
+    const editBtn = document.getElementById('edit-btn');
+    const updateBtn = document.getElementById('update-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+    const editableFields = document.querySelectorAll('.editable-field'); 
+    const uploadBtn = document.getElementById('upload-button');
+    const avatarInput = document.getElementById('avatar');
+    const previewAvatarElem = document.getElementById('preview-avatar');
+    
+    // Simpan avatar asli saat halaman dimuat
+    const originalAvatar = previewAvatarElem?.src;
+
+    // Handle "Edit" button click
+    editBtn?.addEventListener('click', () => {
+        editableFields.forEach(input => input.removeAttribute('readonly')); 
+        editableFields.forEach(input => input.disabled = false); 
+        editBtn.classList.add('hidden');
+        updateBtn?.classList.remove('hidden');
+        cancelBtn?.classList.remove('hidden');
+        uploadBtn?.classList.remove('hidden'); 
+    });
+
+    // Handle "Cancel" button click
+    cancelBtn?.addEventListener('click', () => {
+        editableFields.forEach(input => {
+            input.setAttribute('readonly', true); 
+            input.disabled = true; 
+            input.value = input.defaultValue; 
+        });
+        editBtn?.classList.remove('hidden');
+        updateBtn?.classList.add('hidden');
+        cancelBtn.classList.add('hidden');
+        uploadBtn?.classList.add('hidden');
+
+        // Reset avatar input dan preview ke avatar asli
+        if (avatarInput) avatarInput.value = '';
+        if (previewAvatarElem) previewAvatarElem.src = originalAvatar;
+    });
+
+    // Handle "Upload" button click
+    uploadBtn?.addEventListener('click', () => avatarInput?.click());
+
+    // Preview avatar on file select
+    avatarInput?.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                if (previewAvatarElem) previewAvatarElem.src = reader.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+});
+
+
+/* ------------------------------ 
     Menu Notifition & Cart Book   
 --------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
@@ -291,51 +367,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Optional: transition for smoothness
     header.style.transition = "transform 0.5s ease-in-out";
 });
-
-
-/* ------------------------- 
-    Profile Edit & Update  
----------------------------- */
-document.addEventListener('DOMContentLoaded', () => {
-    const editBtn = document.getElementById('edit-btn');
-    const updateBtn = document.getElementById('update-btn');
-    const cancelBtn = document.getElementById('cancel-btn');
-    const editableFields = document.querySelectorAll('.editable-field');
-    const uploadBtn = document.getElementById('upload-button');
-    const avatarInput = document.getElementById('avatar');
-
-    editBtn.addEventListener('click', () => {
-        editableFields.forEach(input => input.disabled = false);
-        editBtn.classList.add('hidden');
-        updateBtn.classList.remove('hidden');
-        cancelBtn.classList.remove('hidden');
-        uploadBtn.classList.remove('hidden');
-    });
-
-    cancelBtn.addEventListener('click', () => {
-        editableFields.forEach(input => {
-            input.disabled = true;
-            input.value = input.defaultValue;
-        });
-        editBtn.classList.remove('hidden');
-        updateBtn.classList.add('hidden');
-        cancelBtn.classList.add('hidden');
-        uploadBtn.classList.add('hidden');
-        avatarInput.value = '';
-        document.getElementById('preview-avatar').src = "#";
-    });
-
-    uploadBtn?.addEventListener('click', () => avatarInput.click());
-});
-
-function previewAvatar(event) {
-    const reader = new FileReader();
-    reader.onload = function() {
-        const preview = document.getElementById('preview-avatar');
-        preview.src = reader.result;
-    };
-    reader.readAsDataURL(event.target.files[0]);
-}
 
 
 /* ---------------------- 

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable; 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -16,7 +16,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'identifier', // Combined NIM/NUPTK
+        'identifier', 
         'phone',
         'avatar',
     ];
@@ -29,7 +29,8 @@ class User extends Authenticatable
     // Accessor for avatar
     public function getAvatarAttribute($value)
     {
-        return $value ?? asset('assets/images/avatar.png'); // Default avatar path
+        // Return avatar if exists, otherwise return default avatar path
+        return $value ? asset($value) : asset('assets/images/avatar.png');
     }
 
     public function loans()

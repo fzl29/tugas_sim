@@ -1,3 +1,9 @@
-<div>
-    <!-- Act only according to that maxim whereby you can, at the same time, will that it should become a universal law. - Immanuel Kant -->
+<div class="relative w-full">
+    <label for="{{ $name }}" class="block mb-1.5 font-semibold">{{ $label }}</label>
+    <input type="password" name="{{ $name }}" id="{{ $name }}" class="w-full py-2.5 px-4 rounded-md border border-light5 dark:border-dark5 text-light3 dark:text-dark3 focus:outline-none focus:border-light1 dark:focus:border-dark1 hover:border-light1 dark:hover:border-dark1 transition-all duration-200" placeholder="{{ $place }}" required />
+
+    <div class="toggle-password absolute top-10 right-4 cursor-pointer text-light4 hover:text-light1 dark:text-dark4 dark:hover:text-dark1 transition-all duration-300"  onclick="togglePassword(event)">
+        <svg id="eye-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="25" height="25"><rect width="256" height="256" fill="none"/><path d="M128,56C48,56,16,128,16,128s32,72,112,72,112-72,112-72S208,56,128,56Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="128" cy="128" r="40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+        <svg id="eye-closed" class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="25" height="25"><rect width="256" height="256" fill="none"/><path d="M128,56C48,56,16,128,16,128s32,72,112,72,112-72,112-72S208,56,128,56Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="128" cy="128" r="40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="48" y1="48" x2="208" y2="208" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+    </div>
 </div>

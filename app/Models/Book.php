@@ -6,25 +6,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Model
+class Book extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name',
-        'username',
-        'email',
-        'password',
-        'role',
-        'identifier', // Combined NIM/NUPTK
-        'phone',
-        'avatar',
+        'title',
+        'author',
+        'category_id',
+        'is_available',
+        'cover',
     ];
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 
     public function loans()
     {
@@ -34,11 +31,6 @@ class User extends Model
     public function queues()
     {
         return $this->hasMany(Queue::class);
-    }
-
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class);
     }
 
     public function cartItems()

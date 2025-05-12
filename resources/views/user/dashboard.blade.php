@@ -35,7 +35,7 @@
         <div class="bg-light7 dark:bg-dark7 rounded-md border border-light5 dark:border-dark5 p-6">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-semibold text-light3 dark:text-dark3 font-raleway">Daftar Buku</h3>
-                <a href="{{ route('user.books') }}" class="flex items-center gap-1 text-[14px] hover:underline text-light1 hover:text-light2 dark:text-dark1 dark:hover:text-dark2">
+                <a href="#" class="flex items-center gap-1 text-[14px] hover:underline text-light1 hover:text-light2 dark:text-dark1 dark:hover:text-dark2">
                     Lihat Semua
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="15" height="15"><rect width="256" height="256" fill="none"/><polyline points="56 48 136 128 56 208" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><polyline points="136 48 216 128 136 208" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
                 </a>
@@ -91,7 +91,7 @@
         <div class="bg-light7 dark:bg-dark7 rounded-md border border-light5 dark:border-dark5 p-6">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-semibold text-light3 dark:text-dark3 font-raleway">Antrian Anda</h3>
-                <a href="{{ route('user.queue') }}" class="flex items-center gap-1 text-[14px] hover:underline text-light1 hover:text-light2 dark:text-dark1 dark:hover:text-dark2">
+                <a href="#" class="flex items-center gap-1 text-[14px] hover:underline text-light1 hover:text-light2 dark:text-dark1 dark:hover:text-dark2">
                     Lihat Semua
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="15" height="15"><rect width="256" height="256" fill="none"/><polyline points="56 48 136 128 56 208" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><polyline points="136 48 216 128 136 208" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
                 </a>
@@ -106,7 +106,7 @@
         <div class="bg-light7 dark:bg-dark7 rounded-md border border-light5 dark:border-dark5 p-6">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-semibold text-light3 dark:text-dark3 font-raleway">Riwayat Anda</h3>
-                <a href="{{ route('user.history') }}" class="flex items-center gap-1 text-[14px] hover:underline text-light1 hover:text-light2 dark:text-dark1 dark:hover:text-dark2">
+                <a href="#" class="flex items-center gap-1 text-[14px] hover:underline text-light1 hover:text-light2 dark:text-dark1 dark:hover:text-dark2">
                     Lihat Semua
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="15" height="15"><rect width="256" height="256" fill="none"/><polyline points="56 48 136 128 56 208" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><polyline points="136 48 216 128 136 208" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
                 </a>

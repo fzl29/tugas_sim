@@ -291,7 +291,7 @@
     }
 
     .login .container-login form {
-        @apply flex flex-col gap-4 mt-[30px] mb-[25px];
+        @apply flex flex-col gap-4 mt-[30px];
     }
 
     .login .container-login input {

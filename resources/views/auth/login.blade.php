@@ -54,7 +54,7 @@
                 <h3>Selamat Datang!</h3>
                 <h4>Silahkan Login akun Anda untuk meminjam buku.</h4>
             </div>
-            <form action="#" method="POST">
+            <form action="{{ route('login.submit') }}" method="POST">
                 @csrf
                 <div class="group">
                     <input type="text" name="username" id="username" class="peer" placeholder=" " required/>
@@ -71,7 +71,18 @@
                 </div>
                 <button type="submit">LOGIN</button>
             </form>
-            <a href="/">
+
+            @if ($errors->any())
+                <div class="text-red-500 mt-2 mb-4">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <a href="{{ route('landing') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
                 Back to Home
             </a>

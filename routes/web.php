@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 
 // Landing Page
@@ -43,9 +44,9 @@ Route::middleware(['auth', 'role:user'])->prefix('user')->name('user.')->group(f
         return view('user.dashboard'); // views/user/dashboard.blade.php
     })->name('dashboard');
 
-    Route::get('/profile', function () {
-        return view('user.profile'); // views/user/profile.blade.php
-    })->name('profile');
+    Route::get('/profile', [UserController::class, 'showProfile'])->name('profile');
+    Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
+    Route::put('/profile/password', [UserController::class, 'updatePassword'])->name('profile.password');
 
     Route::get('/books', function () {
         return view('user.books'); // views/user/books.blade.php

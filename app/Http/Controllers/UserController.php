@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
-class AdminController extends Controller
+class UserController extends Controller
 {
     // Menampilkan halaman profile
     public function showProfile()
     {
-        $admin = Auth::user(); // Ambil data admin yang sedang login
-        return view('admin.profile', compact('admin'));
+        $user = Auth::user(); // Ambil data user yang sedang login
+        return view('user.profile', compact('user'));
     }
 
     // Update profile (email, phone, avatar)
@@ -25,27 +25,27 @@ class AdminController extends Controller
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $admin = Auth::user();
+        $user = Auth::user();
 
         // Update avatar jika ada
         if ($request->hasFile('avatar')) {
             // Hapus avatar lama jika ada
-            if ($admin->avatar && !str_contains($admin->avatar, 'assets/images/avatar.png')) {
-                Storage::disk('public')->delete(str_replace('storage/', '', $admin->avatar));
+            if ($user->avatar && !str_contains($user->avatar, 'assets/images/avatar.png')) {
+                Storage::disk('public')->delete(str_replace('storage/', '', $user->avatar));
             }
 
             // Simpan avatar baru
             $avatarPath = $request->file('avatar')->store('avatars', 'public');
-            $admin->avatar = 'storage/' . $avatarPath;
+            $user->avatar = 'storage/' . $avatarPath;
         }
 
         // Update email dan phone
-        /** @var \App\Models\User $admin */
-        $admin = Auth::user();
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
 
-        $admin->email = $request->email;
-        $admin->phone = $request->phone;
-        $admin->save(); // Simpan perubahan
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->save();
 
         return back()->with('success', 'Profile berhasil diperbarui.');
     }
@@ -63,19 +63,19 @@ class AdminController extends Controller
             'password-new.confirmed' => 'Konfirmasi password baru tidak cocok.',
         ]);
 
-        $admin = Auth::user();
+        $user = Auth::user();
 
         // Cek password lama
-        if (!Hash::check($request->input('current-password'), $admin->password)) {
+        if (!Hash::check($request->input('current-password'), $user->password)) {
             return back()->withErrors(['current-password' => 'Password lama tidak sesuai.']);
         }
 
         // Update password baru
-        /** @var \App\Models\User $admin */
-        $admin = Auth::user();
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
         
-        $admin->password = Hash::make($request->input('password-new'));
-        $admin->save(); // Simpan perubahan
+        $user->password = Hash::make($request->input('password-new'));
+        $user->save(); // Simpan perubahan
 
         return back()->with('success', 'Password berhasil diperbarui.');
     }

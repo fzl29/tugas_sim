@@ -1,0 +1,4 @@
+<div>
+    <label for="{{ $name }}" class="block mb-1.5 font-semibold">{{ $label }}</label>
+    <input type="file" id="{{ $name }}" name="{{ $name }}" accept="image/*" class="w-full rounded-md border border-light5 dark:border-dark5 text-light3 dark:text-dark3 focus:outline-none focus:border-light1 dark:focus:border-dark1 hover:border-light1 dark:hover:border-dark1 file:mr-4 file:py-2.5 file:px-6 file:rounded-sm file:cursor-pointer file:border-0 file:bg-light5 file:text-light7 hover:file:bg-light1 dark:file:bg-dark5 dark:file:text-dark7 dark:hover:file:bg-dark1 cursor-pointer file:transition-all file:duration-200 transition-all duration-200" required />
+</div>

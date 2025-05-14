@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BookController;
 
 // Landing Page
 Route::get('/', function () {
@@ -25,9 +26,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::put('/profile/update', [AdminController::class, 'updateProfile'])->name('profile.update');
     Route::put('/profile/password', [AdminController::class, 'updatePassword'])->name('profile.password');
 
-    Route::get('/manage-books', function () {
-        return view('admin.manage-books'); // views/admin/manage-books.blade.php
-    })->name('manage-books');
+    Route::get('/manage-books', [BookController::class, 'index'])->name('manage-books');
+    Route::post('/books', [BookController::class, 'store'])->name('books.store');
+    Route::get('/books/{book}/edit', [BookController::class, 'edit'])->name('books.edit');
+    Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
+    Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
 
     Route::get('/manage-loans', function () {
         return view('admin.manage-loans'); // views/admin/manage-loans.blade.php

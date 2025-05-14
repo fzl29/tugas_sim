@@ -1,15 +1,15 @@
 @props([
     'name',
     'label',
+    'place',
     'options' => [],
     'selected' => null,
-    'required' => false,
 ])
 
 <div class="relative">
     <label for="{{ $name }}" class="block mb-1.5 font-semibold">{{ $label }}</label>
-    <select id="{{ $name }}" name="{{ $name }}" @if ($required) required @endif class="cursor-pointer w-full py-2.5 px-4 pr-10 rounded-md border border-light5 dark:border-dark5 text-light3 dark:text-dark3 bg-light7 dark:bg-dark7 appearance-none focus:outline-none focus:border-light1 dark:focus:border-dark1 hover:border-light1 dark:hover:border-dark1 transition-all duration-200">
-        <option value="">{{ $name }}</option>
+    <select id="{{ $name }}" name="{{ $name }}" class="cursor-pointer w-full py-2.5 px-4 pr-10 rounded-md border border-light5 dark:border-dark5 text-light3 dark:text-dark3 bg-light7 dark:bg-dark7 appearance-none focus:outline-none focus:border-light1 dark:focus:border-dark1 hover:border-light1 dark:hover:border-dark1 transition-all duration-200" required>
+        <option value="">{{ $place }}</option>
         @foreach ($options as $value => $text)
             <option value="{{ $value }}" {{ (string) $value === (string) $selected ? 'selected' : '' }}>
                 {{ $text }}

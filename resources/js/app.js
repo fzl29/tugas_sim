@@ -4,15 +4,29 @@ import './bootstrap';
     Alert Hide Otomatis   
 --------------------------------- */
 document.addEventListener('DOMContentLoaded', function () {
-    const alerts = document.querySelectorAll('.mt-5');
+    const alerts = document.querySelectorAll('.alert');
+
     alerts.forEach(alert => {
+        // Sembunyikan secara halus setelah 3 detik
         setTimeout(() => {
-            alert.style.transition = 'opacity 0.5s ease';
-            alert.style.opacity = '0';
+            alert.classList.add('opacity-0');
             setTimeout(() => {
-                alert.remove();
-            }, 500); 
-        }, 2500); 
+                alert.style.display = 'none';
+            }, 500); // waktu transisi sesuai duration-500
+        }, 3000);
+    });
+
+    // Klik manual untuk menutup
+    const closeButtons = document.querySelectorAll('[role="alert"] svg');
+    closeButtons.forEach(button => {
+        button.style.cursor = 'pointer';
+        button.addEventListener('click', function () {
+            const alert = this.closest('[role="alert"]');
+            alert.classList.add('opacity-0');
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 300);
+        });
     });
 });
 

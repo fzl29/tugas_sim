@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('queue_id')->nullable()->constrained()->cascadeOnDelete(); // Link to queue
             $table->date('loan_date');
             $table->date('return_date');
-            $table->enum('status', ['borrowed', 'returned', 'late'])->default('borrowed');
+            $table->enum('status', ['menunggu', 'disetujui', 'ditolak'])->default('menunggu');
             $table->decimal('fine', 10, 2)->nullable(); // Fine for late returns
             $table->timestamps();
             $table->softDeletes(); // Support soft deletes

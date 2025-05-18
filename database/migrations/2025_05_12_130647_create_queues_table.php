@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('book_id')->constrained()->cascadeOnDelete();
             $table->date('loan_date');
             $table->date('return_date');
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->enum('status', ['menunggu', 'disetujui', 'ditolak'])->default('menunggu');
             $table->timestamps();
             $table->softDeletes(); // Support soft deletes
         });

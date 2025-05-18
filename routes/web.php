@@ -2,9 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\BookController;
+use App\Http\Controllers\UserBookLoanController;
 
 // Landing Page
 Route::get('/', function () {
@@ -51,16 +52,11 @@ Route::middleware(['auth', 'role:user'])->prefix('user')->name('user.')->group(f
     Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
     Route::put('/profile/password', [UserController::class, 'updatePassword'])->name('profile.password');
 
-    // Route::get('/books', [BookController::class, 'listForUser'])->name('books');
     Route::get('/books', [BookController::class, 'listForUser'])->name('books');
+    Route::get('/book-loans', [UserBookLoanController::class, 'form'])->name('book-loans');
+    Route::post('/book-loans/submit', [UserBookLoanController::class, 'submit'])->name('book-loans.submit');
+    Route::get('/queue', [UserBookLoanController::class, 'queue'])->name('queue');
 
-    Route::get('/book-loans', function () {
-        return view('user.book-loans'); // views/user/book-loans.blade.php
-    })->name('book-loans');
-
-    Route::get('/queue', function () {
-        return view('user.queue'); // views/user/queue.blade.php
-    })->name('queue');
 
     Route::get('/history', function () {
         return view('user.history'); // views/user/history.blade.php

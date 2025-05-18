@@ -19,6 +19,13 @@ class Queue extends Model
         'status',
     ];
 
+    public static function generateCode()
+    {
+        $last = self::orderBy('id', 'desc')->first();
+        $number = $last ? ((int) substr($last->queue_code, 3)) + 1 : 1;
+        return 'BK-' . str_pad($number, 4, '0', STR_PAD_LEFT);
+    }
+    
     public function user()
     {
         return $this->belongsTo(User::class);

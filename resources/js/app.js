@@ -1,5 +1,178 @@
 import './bootstrap';
 
+/* ---------------------------------------------- 
+    Form Pengajuan Buku (Book-Loans) JS Details   
+------------------------------------------------- */
+document.addEventListener('DOMContentLoaded', function() {
+    let selectedBooks = window.SIPUS_DATA.selectedBooks;
+    let availableBooks = window.SIPUS_DATA.availableBooks;
+    let maxBooks = 3;
+    let maxLoanDays = window.SIPUS_DATA.maxLoanDays;
+    let minLoanDays = window.SIPUS_DATA.minLoanDays;
+    let defaultLoanDays = window.SIPUS_DATA.loanDefaultDays;
+    let todayStr = window.SIPUS_DATA.todayStr;
+
+    let selectedBookIds = selectedBooks.map(b => String(b.id));
+
+    // Modal show/hide
+    const openBookSelectorBtn = document.getElementById('openBookSelector');
+    const bookSelectorModal = document.getElementById('bookSelectorModal');
+    if (openBookSelectorBtn && bookSelectorModal) {
+        openBookSelectorBtn.addEventListener('click', function() {
+            if (selectedBookIds.length >= maxBooks) {
+                alert('Maksimal 3 buku!');
+                return;
+            }
+            bookSelectorModal.style.display = 'block';
+            updateBookListModal();
+        });
+    }
+    window.closeBookSelector = function() {
+        bookSelectorModal.style.display = 'none';
+    };
+
+    // Modal search
+    const searchInput = document.getElementById('searchBookInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const keyword = this.value.toLowerCase();
+            document.querySelectorAll('#bookList > div[data-title]').forEach(function(div) {
+                div.style.display = div.getAttribute('data-title').includes(keyword) ? '' : 'none';
+            });
+        });
+    }
+
+    // Helper: Render selectedBooks
+    function renderSelectedBooks() {
+        const container = document.getElementById('selected-books-list');
+        let html = '';
+        if (selectedBooks.length === 0) {
+            html = '<p>Belum ada buku yang dipilih.</p>';
+        } else {
+            selectedBooks.forEach(book => {
+                let imgSrc = book.cover
+                    ? window.SIPUS_ASSET.storage + '/' + book.cover
+                    : window.SIPUS_ASSET.defaultBook;
+                html += `
+                    <div class="flex gap-3 p-3 mb-3 rounded-md border border-light5 dark:border-dark5 relative">
+                        <button type="button" onclick="removeBookFromLoan('${book.id}')" class="absolute cursor-pointer top-1.5 right-2.5 text-2xl text-red-500 hover:text-red-700 font-bold z-10" title="Hapus Buku">&times;</button>
+                        <img src="${imgSrc}" class="w-28 h-40 object-cover rounded-md" loading="lazy" />
+                        <div class="flex flex-col space-y-1 w-full">
+                            <h4 class="font-semibold font-raleway text-[16px] leading-5 mb-3 text-light3 dark:text-dark3">${book.title}</h4>
+                            <p class="text-[15px] text-light4 dark:text-dark4">Penulis: ${book.author}</p>
+                            <p class="text-[15px] text-light4 dark:text-dark4">Kategori: ${book.category?.name ?? '-'}</p>
+                            <span class="text-green-600 text-[14px] mt-auto">${book.is_available ? '✅Tersedia' : '❌Tidak Tersedia'}</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        container.innerHTML = html;
+    }
+
+    // Fungsi hapus buku dari pinjaman
+    window.removeBookFromLoan = function(bookId) {
+        bookId = String(bookId);
+        selectedBooks = selectedBooks.filter(b => String(b.id) !== bookId);
+        selectedBookIds = selectedBookIds.filter(id => id !== bookId);
+        renderSelectedBooks();
+        renderHiddenInputs();
+        renderDetail();
+        updateBookListModal();
+    };
+
+    // Helper: Render hidden inputs
+    function renderHiddenInputs() {
+        const form = document.getElementById('loan-form');
+        // Hapus semua input hidden book_id
+        form.querySelectorAll('input[name="book_id[]"]').forEach(e => e.remove());
+        // Tambah ulang input hidden book_id
+        selectedBooks.forEach(book => {
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'book_id[]';
+            input.value = book.id;
+            form.appendChild(input);
+        });
+    }
+
+    // Helper: Render keterangan detail
+    function renderDetail() {
+        document.getElementById('detailTitles').textContent = selectedBooks.map(b => b.title).join(', ');
+        document.getElementById('detailTotal').textContent = selectedBooks.length;
+        // Update lama pinjam dan tanggal kembali
+        let durasi = parseInt(document.getElementById('duration').value) || defaultLoanDays;
+        document.getElementById('durasiPinjam').textContent = durasi;
+        renderTanggalKembali(durasi);
+    }
+
+    // Helper: Render tanggal kembali
+    function renderTanggalKembali(duration) {
+        let today = new Date(todayStr);
+        today.setDate(today.getDate() + duration);
+        const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+        document.getElementById('tanggalKembali').textContent = today.getDate() + ' ' + bulan[today.getMonth()] + ' ' + today.getFullYear();
+    }
+
+    // Fungsi tambah buku ke pinjaman (frontend only)
+    window.addBookToLoan = function(bookId) {
+        bookId = String(bookId);
+        if (selectedBookIds.includes(bookId)) {
+            alert('Buku sudah dipilih, silakan pilih buku lain.');
+            return;
+        }
+        if (selectedBookIds.length >= maxBooks) {
+            alert('Maksimal 3 buku!');
+            return;
+        }
+        let book = availableBooks.find(b => String(b.id) === bookId);
+        if (!book) return;
+        selectedBooks.push(book);
+        selectedBookIds.push(bookId);
+
+        renderSelectedBooks();
+        renderHiddenInputs();
+        renderDetail();
+        closeBookSelector();
+        updateBookListModal();
+    };
+
+    // Update tampilan tombol di modal
+    function updateBookListModal() {
+        document.querySelectorAll('#bookList > div[data-book-id]').forEach(function(div) {
+            const btn = div.querySelector('button.book-select-btn');
+            const bookId = div.getAttribute('data-book-id');
+            if (selectedBookIds.includes(bookId)) {
+                btn.disabled = true;
+                btn.textContent = 'Sudah Dipilih';
+                btn.classList.add('bg-gray-400', 'cursor-not-allowed');
+                btn.classList.remove('bg-light1', 'hover:bg-light2');
+            } else {
+                btn.disabled = false;
+                btn.textContent = 'Pilih';
+                btn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                btn.classList.add('bg-light1');
+            }
+        });
+    }
+
+    // Handle dynamic duration
+    const durasiInput = document.getElementById('duration');
+    if (durasiInput) {
+        durasiInput.value = defaultLoanDays;
+        durasiInput.addEventListener('input', function() {
+            renderDetail();
+        });
+    }
+
+    // Inisialisasi awal
+    renderSelectedBooks();
+    renderHiddenInputs();
+    renderDetail();
+    updateBookListModal();
+});
+
+
 /* ------------------------------ 
     Alert Hide Otomatis   
 --------------------------------- */

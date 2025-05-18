@@ -55,8 +55,11 @@ Route::middleware(['auth', 'role:user'])->prefix('user')->name('user.')->group(f
     Route::get('/books', [BookController::class, 'listForUser'])->name('books');
     Route::get('/book-loans', [UserBookLoanController::class, 'form'])->name('book-loans');
     Route::post('/book-loans/submit', [UserBookLoanController::class, 'submit'])->name('book-loans.submit');
-    Route::get('/queue', [UserBookLoanController::class, 'queue'])->name('queue');
 
+
+    Route::get('/queue', function () {
+        return view('user.queue'); // views/user/queue.blade.php
+    })->name('queue');
 
     Route::get('/history', function () {
         return view('user.history'); // views/user/history.blade.php

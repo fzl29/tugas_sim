@@ -23,7 +23,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- Data dummy sementara --}}
                     <tr class="border-b border-light5 dark:border-dark5">
                         <td class="px-4 py-2.5">1</td>
                         <td class="px-4 py-2.5">BK-0001</td>

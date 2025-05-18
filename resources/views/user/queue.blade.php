@@ -1,38 +1,4 @@
 @extends('layouts.master-user')
-@section('title', 'Antrian Pinjaman Buku')
-@section('content')
-<h2 class="text-xl font-semibold mb-4">Daftar Antrian Pinjaman Buku</h2>
-<table class="w-full table-auto border">
-    <thead>
-        <tr>
-            <th>No</th>
-            <th>No Antrian</th>
-            <th>Judul Buku</th>
-            <th>Tanggal Pinjam</th>
-            <th>Tanggal Kembali</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($queues as $i => $queue)
-        <tr>
-            <td>{{ $i + 1 }}</td>
-            <td>{{ $queue->queue_code }}</td>
-            <td>
-                @foreach($queue->loans as $loan)
-                    {{ $loan->book->title }}{{ !$loop->last ? ', ' : '' }}
-                @endforeach
-            </td>
-            <td>{{ \Carbon\Carbon::parse($queue->loan_date)->format('d M Y') }}</td>
-            <td>{{ \Carbon\Carbon::parse($queue->return_date)->format('d M Y') }}</td>
-            <td>{{ ucfirst($queue->status) }}</td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
-@endsection
-
-{{-- @extends('layouts.master-user')
 
 @section('title', 'SiPus Digital - Antrian')
 
@@ -91,4 +57,4 @@
     </div>
 </section>
 
-@endsection --}}
+@endsection

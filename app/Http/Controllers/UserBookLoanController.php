@@ -67,11 +67,4 @@ class UserBookLoanController extends Controller
 
         return redirect()->route('user.queue')->with('success', 'Pengajuan pinjaman buku berhasil!');
     }
-
-    public function queue()
-    {
-        $user = Auth::user();
-        $queues = Queue::with('loans.book')->where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
-        return view('user.queue', compact('queues'));
-    }
 }

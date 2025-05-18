@@ -101,4 +101,31 @@ class BookController extends Controller
         return redirect()->route('admin.manage-books')
             ->with('success', 'Buku <strong>' . e($book->title) . '</strong> berhasil dihapus!');
     }
+
+
+    public function listForUser(Request $request)
+    {
+        $categories = Category::orderBy('created_at', 'asc')->get();
+        $categoryId = $request->query('category_id');
+
+        // Buku sesuai filter kategori (atau semua jika kosong)
+        $booksQuery = Book::with('category')->latest();
+        if ($categoryId) {
+            $booksQuery->where('category_id', $categoryId);
+        }
+        $books = $booksQuery->get();
+
+        // Buku-buku per kategori (untuk section per kategori)
+        $booksByCategory = [];
+        foreach ($categories as $cat) {
+            $booksByCategory[$cat->name] = Book::with('category')->where('category_id', $cat->id)->latest()->get();
+        }
+
+        // Urutkan kategori yang ada bukunya di atas
+        $categories = $categories->sortByDesc(function ($cat) use ($booksByCategory) {
+            return $booksByCategory[$cat->name]->count() > 0 ? 1 : 0;
+        })->values();
+
+        return view('user.books', compact('books', 'categories', 'booksByCategory', 'categoryId'));
+    }
 }

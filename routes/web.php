@@ -51,9 +51,8 @@ Route::middleware(['auth', 'role:user'])->prefix('user')->name('user.')->group(f
     Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
     Route::put('/profile/password', [UserController::class, 'updatePassword'])->name('profile.password');
 
-    Route::get('/books', function () {
-        return view('user.books'); // views/user/books.blade.php
-    })->name('books');
+    // Route::get('/books', [BookController::class, 'listForUser'])->name('books');
+    Route::get('/books', [BookController::class, 'listForUser'])->name('books');
 
     Route::get('/book-loans', function () {
         return view('user.book-loans'); // views/user/book-loans.blade.php

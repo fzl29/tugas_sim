@@ -23,45 +23,39 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @forelse($queues as $i => $queue)
                     <tr class="border-b border-light5 dark:border-dark5">
-                        <td class="px-4 py-2.5">1</td>
-                        <td class="px-4 py-2.5">BK-0001</td>
-                        <td class="px-4 py-2.5">Ahmad Fauzi</td>
-                        <td class="px-4 py-2.5">Pengantar Teknologi Informasi</td>
-                        <td class="px-4 py-2.5">25 April 2025</td>
-                        <td class="px-4 py-2.5">27 April 2025</td>
-                        <td class="px-4 py-2.5"><span class="text-[13px] rounded-md py-1 px-3 bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-100">Menunggu</span></td>
+                        <td class="px-4 py-2.5">{{ $i+1 }}</td>
+                        <td class="px-4 py-2.5">{{ $queue->queue_number }}</td>
+                        <td class="px-4 py-2.5">{{ $queue->user->name }}</td>
+                        <td class="px-4 py-2.5">{{ $queue->book->title }}</td>
+                        <td class="px-4 py-2.5">{{ \Carbon\Carbon::parse($queue->loan_date)->format('d M Y') }}</td>
+                        <td class="px-4 py-2.5">{{ \Carbon\Carbon::parse($queue->return_date)->format('d M Y') }}</td>
                         <td class="px-4 py-2.5">
-                            <button class="transition-all duration-200 cursor-pointer bg-light1 hover:bg-light2 text-light7 px-3 py-1 rounded-md text-[13px] mr-1">Setujui</button>
-                            <button class="transition-all duration-200 cursor-pointer bg-red-500 hover:bg-red-600 text-light7 px-3 py-1 rounded-md text-[13px]">Tolak</button> 
+                            @if($queue->status == 'menunggu')
+                                <span class="text-[13px] rounded-md py-1 px-3 bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-100">Menunggu</span>
+                            @elseif($queue->status == 'disetujui')
+                                <span class="text-[13px] rounded-md py-1 px-3 bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-100">Disetujui</span>
+                            @else
+                                <span class="text-[13px] rounded-md py-1 px-3 bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-100">Ditolak</span>
+                            @endif
+                        </td>
+                        <td class="px-4 py-2.5">
+                            @if($queue->status == 'menunggu')
+                            <form action="{{ route('admin.queue.approve', $queue->id) }}" method="POST" style="display:inline-block;">
+                                @csrf @method('PUT')
+                                <button type="submit" name="action" value="approve" class="transition-all duration-200 cursor-pointer bg-light1 hover:bg-light2 text-light7 px-3 py-1 rounded-md text-[13px] mr-1">Setujui</button>
+                            </form>
+                            <form action="{{ route('admin.queue.reject', $queue->id) }}" method="POST" style="display:inline-block;">
+                                @csrf @method('PUT')
+                                <button type="submit" name="action" value="reject" class="transition-all duration-200 cursor-pointer bg-red-500 hover:bg-red-600 text-light7 px-3 py-1 rounded-md text-[13px]">Tolak</button>
+                            </form>
+                            @endif
                         </td>
                     </tr>
-                    <tr class="border-b border-light5 dark:border-dark5">
-                        <td class="px-4 py-2.5">2</td>
-                        <td class="px-4 py-2.5">BK-0002</td>
-                        <td class="px-4 py-2.5">Ahmad Fauzi</td>
-                        <td class="px-4 py-2.5">Pengantar Teknologi Informasi</td>
-                        <td class="px-4 py-2.5">25 April 2025</td>
-                        <td class="px-4 py-2.5">27 April 2025</td>
-                        <td class="px-4 py-2.5"><span class="text-[13px] rounded-md py-1 px-3 bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-100">Disetujui</span></td>
-                        <td class="px-4 py-2.5">
-                            <button class="transition-all duration-200 cursor-pointer bg-light1 hover:bg-light2 text-light7 px-3 py-1 rounded-md text-[13px] mr-1 hidden">Setujui</button>
-                            <button class="transition-all duration-200 cursor-pointer bg-red-500 hover:bg-red-600 text-light7 px-3 py-1 rounded-md text-[13px] hidden">Tolak</button> 
-                        </td>
-                    </tr>
-                    <tr class="border-b border-light5 dark:border-dark5">
-                        <td class="px-4 py-2.5">3</td>
-                        <td class="px-4 py-2.5">BK-0003</td>
-                        <td class="px-4 py-2.5">Ahmad Fauzi</td>
-                        <td class="px-4 py-2.5">Pengantar Teknologi Informasi</td>
-                        <td class="px-4 py-2.5">25 April 2025</td>
-                        <td class="px-4 py-2.5">27 April 2025</td>
-                        <td class="px-4 py-2.5"><span class="text-[13px] rounded-md py-1 px-3 bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-100">Ditolak</span></td>
-                        <td class="px-4 py-2.5">
-                            <button class="transition-all duration-200 cursor-pointer bg-light1 hover:bg-light2 text-light7 px-3 py-1 rounded-md text-[13px] mr-1 hidden">Setujui</button>
-                            <button class="transition-all duration-200 cursor-pointer bg-red-500 hover:bg-red-600 text-light7 px-3 py-1 rounded-md text-[13px] hidden">Tolak</button> 
-                        </td>
-                    </tr>
+                    @empty
+                    <tr><td colspan="8">Tidak ada antrian</td></tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

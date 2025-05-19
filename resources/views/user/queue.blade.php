@@ -7,7 +7,7 @@
 @include('components.title', ['title' => 'Antrian', 'subtitle' => 'Antrian Pinjaman'])
 
 <section class="p-6 rounded-md bg-light7 dark:bg-dark7 text-light4 dark:text-dark4 border border-light5 dark:border-dark5">
-    <div id="content-default" class="w-full overflow-x-auto mt-6">
+    <div id="content-default" class="w-full overflow-x-auto">
         <div class="min-w-[1000px]">
             <table class="w-full table-auto text-[15px]">
                 <thead class="bg-light8 dark:bg-dark8 text-light1 dark:text-dark1 ">
@@ -23,34 +23,39 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @forelse($queues as $i => $queue)
                     <tr class="border-b border-light5 dark:border-dark5">
-                        <td class="px-4 py-2.5">1</td>
-                        <td class="px-4 py-2.5">BK-0001</td>
-                        <td class="px-4 py-2.5">Star Wars the Of Legends</td>
-                        <td class="px-4 py-2.5">25 April 2025</td>
-                        <td class="px-4 py-2.5">27 April 2025</td>
-                        <td class="px-4 py-2.5"><span class="text-[13px] rounded-md py-1 px-3 bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-100">Menunggu</span></td>
+                        <td class="px-4 py-2.5">{{ $i+1 }}</td>
+                        <td class="px-4 py-2.5">{{ $queue->queue_number }}</td>
+                        <td class="px-4 py-2.5">{{ $queue->book->title }}</td>
+                        <td class="px-4 py-2.5">{{ \Carbon\Carbon::parse($queue->loan_date)->format('d M Y') }}</td>
+                        <td class="px-4 py-2.5">{{ \Carbon\Carbon::parse($queue->return_date)->format('d M Y') }}</td>
                         <td class="px-4 py-2.5">
-                            <button class="transition-all duration-200 cursor-pointer bg-red-500 hover:bg-red-600 text-light7 px-3 py-1 rounded-md text-[13px]">Batalkan</button> 
+                            @if($queue->status == 'menunggu')
+                                <span class="text-[13px] rounded-md py-1 px-3 bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-100">Menunggu</span>
+                            @elseif($queue->status == 'disetujui')
+                                <span class="text-[13px] rounded-md py-1 px-3 bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-100">Disetujui</span>
+                            @else
+                                <span class="text-[13px] rounded-md py-1 px-3 bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-100">Ditolak</span>
+                            @endif
                         </td>
                         <td class="px-4 py-2.5">
-                            <button class="transition-all duration-200 cursor-pointer bg-green-600 hover:bg-green-700 text-light7 px-3 py-1 rounded-md text-[13px] mr-1 hidden">Cetak</button>
+                        @if($queue->status == 'menunggu')
+                            <form action="{{ route('user.queue.cancel', $queue->id) }}" method="POST">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="transition-all duration-200 cursor-pointer bg-red-500 hover:bg-red-600 text-light7 px-3 py-1 rounded-md text-[13px]">Batalkan</button>
+                            </form>
+                        @endif
+                        </td>
+                        <td class="px-4 py-2.5">
+                        @if($queue->status == 'disetujui')
+                            <a href="{{ route('user.queue.print', $queue->id) }}" class="transition-all duration-200 cursor-pointer bg-green-600 hover:bg-green-700 text-light7 px-3 py-1 rounded-md text-[13px]">Cetak PDF</a>
+                        @endif
                         </td>
                     </tr>
-                    <tr class="border-b border-light5 dark:border-dark5">
-                        <td class="px-4 py-2.5">2</td>
-                        <td class="px-4 py-2.5">BK-0001</td>
-                        <td class="px-4 py-2.5">Star Wars the Of Legends</td>
-                        <td class="px-4 py-2.5">25 April 2025</td>
-                        <td class="px-4 py-2.5">27 April 2025</td>
-                        <td class="px-4 py-2.5"><span class="text-[13px] rounded-md py-1 px-3 bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-100">Disetujui</span></td>
-                        <td class="px-4 py-2.5">
-                            <button class="transition-all duration-200 cursor-pointer bg-red-500 hover:bg-red-600 text-light7 px-3 py-1 rounded-md text-[13px] hidden">Batalkan</button> 
-                        </td>
-                        <td class="px-4 py-2.5">
-                            <button class="transition-all duration-200 cursor-pointer bg-green-600 hover:bg-green-700 text-light7 px-3 py-1 rounded-md text-[13px] mr-1">Cetak</button>
-                        </td>
-                    </tr>
+                    @empty
+                    <tr><td colspan="8">Tidak ada antrian</td></tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

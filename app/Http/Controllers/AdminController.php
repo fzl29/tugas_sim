@@ -79,4 +79,36 @@ class AdminController extends Controller
 
         return back()->with('success', 'Password berhasil diperbarui.');
     }
+
+    public function manageQueues()
+    {
+        $queues = \App\Models\Queue::with(['user', 'book'])
+            ->orderBy('loan_date', 'desc')
+            ->get();
+        return view('admin.manage-queues', compact('queues'));
+    }
+
+    public function approveQueue($id)
+    {
+        $queue = \App\Models\Queue::findOrFail($id);
+        $queue->status = 'disetujui';
+        $queue->save();
+
+        // Update Loan status juga jika perlu
+        \App\Models\Loan::where('queue_id', $queue->id)->update(['status' => 'disetujui']);
+
+        return back()->with('success', 'Antrian disetujui!');
+    }
+
+    public function rejectQueue($id)
+    {
+        $queue = \App\Models\Queue::findOrFail($id);
+        $queue->status = 'ditolak';
+        $queue->save();
+
+        \App\Models\Loan::where('queue_id', $queue->id)->update(['status' => 'ditolak']);
+        \App\Models\Book::where('id', $queue->book_id)->update(['is_available' => true]);
+
+        return back()->with('success', 'Antrian ditolak!');
+    }
 }

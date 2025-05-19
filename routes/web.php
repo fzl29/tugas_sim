@@ -33,13 +33,14 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
     Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
 
+    Route::get('/manage-queues', [AdminController::class, 'manageQueues'])->name('manage-queues');
+    Route::put('/queues/{queue}/approve', [AdminController::class, 'approveQueue'])->name('queue.approve');
+    Route::put('/queues/{queue}/reject', [AdminController::class, 'rejectQueue'])->name('queue.reject');
+
     Route::get('/manage-loans', function () {
         return view('admin.manage-loans'); // views/admin/manage-loans.blade.php
     })->name('manage-loans');
 
-    Route::get('/manage-queues', function () {
-        return view('admin.manage-queues'); // views/admin/manage-queues.blade.php
-    })->name('manage-queues');
 });
 
 // User Routes (Mahasiswa)
@@ -56,10 +57,9 @@ Route::middleware(['auth', 'role:user'])->prefix('user')->name('user.')->group(f
     Route::get('/book-loans', [UserBookLoanController::class, 'form'])->name('book-loans');
     Route::post('/book-loans/submit', [UserBookLoanController::class, 'submit'])->name('book-loans.submit');
 
-
-    Route::get('/queue', function () {
-        return view('user.queue'); // views/user/queue.blade.php
-    })->name('queue');
+    Route::get('/queue', [UserBookLoanController::class, 'userQueue'])->name('queue');
+    Route::get('/queue/{queue}/print', [UserBookLoanController::class, 'printQueue'])->name('queue.print');
+    Route::delete('/queue/{queue}', [UserBookLoanController::class, 'cancelQueue'])->name('queue.cancel');
 
     Route::get('/history', function () {
         return view('user.history'); // views/user/history.blade.php

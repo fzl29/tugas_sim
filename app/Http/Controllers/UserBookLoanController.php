@@ -7,6 +7,7 @@ use App\Models\Loan;
 use App\Models\Queue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserBookLoanController extends Controller
 {
@@ -39,21 +40,19 @@ class UserBookLoanController extends Controller
         ]);
         $user = Auth::user();
         $bookIds = $request->book_id;
-        $duration = $request->duration;
+        $duration = (int) $request->duration; // <-- tambahkan casting ke integer!
 
-        // Buat satu Queue record untuk user, set status=menunggu
-        $queue = Queue::create([
-            'user_id' => $user->id,
-            'queue_code' => Queue::generateCode(), // Buat kode antrian unik
-            'loan_duration' => $duration,
-            'loan_date' => now(),
-            'return_date' => now()->addDays($duration),
-            'status' => 'menunggu',
-        ]);
-
-        // Simpan detail pinjaman buku
         foreach ($bookIds as $bookId) {
-            Loan::create([
+            $queue = \App\Models\Queue::create([
+                'user_id' => $user->id,
+                'queue_number' => \App\Models\Queue::generateCode(),
+                'book_id' => $bookId,
+                'loan_date' => now(),
+                'return_date' => now()->addDays($duration),
+                'status' => 'menunggu',
+            ]);
+
+            \App\Models\Loan::create([
                 'queue_id' => $queue->id,
                 'book_id' => $bookId,
                 'user_id' => $user->id,
@@ -61,10 +60,37 @@ class UserBookLoanController extends Controller
                 'return_date' => now()->addDays($duration),
                 'status' => 'menunggu',
             ]);
-            // Update status buku
-            Book::where('id', $bookId)->update(['is_available' => false]);
+
+            \App\Models\Book::where('id', $bookId)->update(['is_available' => false]);
         }
 
         return redirect()->route('user.queue')->with('success', 'Pengajuan pinjaman buku berhasil!');
+    }
+
+    public function userQueue()
+    {
+        $queues = \App\Models\Queue::with(['book'])
+            ->where('user_id', Auth::id())
+            ->orderBy('loan_date', 'desc')
+            ->get();
+        return view('user.queue', compact('queues'));
+    }
+
+    public function printQueue($id)
+    {
+        $queue = \App\Models\Queue::with('book')->where('user_id', Auth::id())->findOrFail($id);
+        $pdf = Pdf::loadView('user.queue-pdf', compact('queue'));
+        return $pdf->download('bukti_antrian_' . $queue->queue_number . '.pdf');
+    }
+
+    public function cancelQueue($id)
+    {
+        $queue = \App\Models\Queue::where('user_id', Auth::id())->findOrFail($id);
+        $queue->status = 'ditolak';
+        $queue->save();
+
+        \App\Models\Loan::where('queue_id', $queue->id)->update(['status' => 'ditolak']);
+        \App\Models\Book::where('id', $queue->book_id)->update(['is_available' => true]);
+        return back()->with('success', 'Antrian dibatalkan!');
     }
 }

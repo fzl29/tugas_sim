@@ -22,7 +22,7 @@ class Queue extends Model
     public static function generateCode()
     {
         $last = self::orderBy('id', 'desc')->first();
-        $number = $last ? ((int) substr($last->queue_code, 3)) + 1 : 1;
+        $number = $last ? ((int) substr($last->queue_number, 3)) + 1 : 1;
         return 'BK-' . str_pad($number, 4, '0', STR_PAD_LEFT);
     }
     

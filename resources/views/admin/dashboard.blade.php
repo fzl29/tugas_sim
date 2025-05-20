@@ -47,6 +47,66 @@
     </div>
 </section>
 
+<!-- Peminjaman Terbaru -->
+<section class="bg-light7 dark:bg-dark7 rounded-md border border-light5 dark:border-dark5 p-6">
+    <h3 class="text-lg font-semibold text-light3 dark:text-dark3 font-raleway mb-4">Peminjaman Terbaru</h3>
+    <div class="w-full overflow-x-auto">
+        <div class="min-w-[1000px]">
+            <table class="w-full table-auto text-[15px] whitespace-nowrap overflow-hidden">
+                <thead>
+                    <tr class="bg-light8 text-light1 dark:bg-dark8 dark:text-dark1">
+                        <th class="px-4 py-2.5 text-left">No</th>
+                        <th class="px-4 py-2.5 text-left">Judul Buku</th>
+                        <th class="px-4 py-2.5 text-left">Nama Mahasiswa</th>
+                        <th class="px-4 py-2.5 text-left">Tgl Pinjam</th>
+                        <th class="px-4 py-2.5 text-left">Tgl Kembali</th>
+                        <th class="px-4 py-2.5 text-left">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($latestLoans as $i => $loan)
+                    <tr class="border-b border-light5 dark:border-dark5">
+                        <td class="px-4 py-2.5">{{ $i+1 }}</td>
+                        <td class="px-4 py-2.5">{{ $loan->book->title ?? '-' }}</td>
+                        <td class="px-4 py-2.5">{{ $loan->user->name ?? '-' }}</td>
+                        <td class="px-4 py-2.5">{{ \Carbon\Carbon::parse($loan->tanggal_pinjam)->translatedFormat('d M Y') }}</td>
+                        <td class="px-4 py-2.5">{{ \Carbon\Carbon::parse($loan->tanggal_kembali)->translatedFormat('d M Y') }}</td>
+                        @php
+                            $status = strtolower($loan->status);
+                        @endphp
+                        <td class="px-4 py-2.5">
+                            @if($status === 'dipinjam')
+                                <span class="text-[13px] rounded-md py-1 px-3 bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-100">
+                                    Dipinjam
+                                </span>
+                            @elseif($status === 'dikembalikan' || $status === 'kembali')
+                                <span class="text-[13px] rounded-md py-1 px-3 bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-100">
+                                    Dikembalikan
+                                </span>
+                            @elseif($status === 'terlambat')
+                                <span class="text-[13px] rounded-md py-1 px-3 bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-100">
+                                    Terlambat
+                                </span>
+                            @elseif($status === 'ditolak')
+                                <span class="text-[13px] rounded-md py-1 px-3 bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-100">
+                                    Ditolak
+                                </span>
+                            @else
+                                <span class="text-[13px] rounded-md py-1 px-3 bg-gray-100 text-gray-700 dark:bg-gray-900 dark:text-gray-100">
+                                    {{ ucfirst($loan->status) }}
+                                </span>
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+@endsection
+
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -135,63 +195,3 @@ const loanChart = new Chart(ctx, {
 });
 </script>
 @endpush
-
-<!-- Peminjaman Terbaru -->
-<section class="bg-light7 dark:bg-dark7 rounded-md border border-light5 dark:border-dark5 p-6">
-    <h3 class="text-lg font-semibold text-light3 dark:text-dark3 font-raleway mb-4">Peminjaman Terbaru</h3>
-    <div class="w-full overflow-x-auto">
-        <div class="min-w-[1000px]">
-            <table class="w-full table-auto text-[15px] whitespace-nowrap overflow-hidden">
-                <thead>
-                    <tr class="bg-light8 text-light1 dark:bg-dark8 dark:text-dark1">
-                        <th class="px-4 py-2.5 text-left">No</th>
-                        <th class="px-4 py-2.5 text-left">Judul Buku</th>
-                        <th class="px-4 py-2.5 text-left">Nama Mahasiswa</th>
-                        <th class="px-4 py-2.5 text-left">Tgl Pinjam</th>
-                        <th class="px-4 py-2.5 text-left">Tgl Kembali</th>
-                        <th class="px-4 py-2.5 text-left">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($latestLoans as $i => $loan)
-                    <tr class="border-b border-light5 dark:border-dark5">
-                        <td class="px-4 py-2.5">{{ $i+1 }}</td>
-                        <td class="px-4 py-2.5">{{ $loan->book->title ?? '-' }}</td>
-                        <td class="px-4 py-2.5">{{ $loan->user->name ?? '-' }}</td>
-                        <td class="px-4 py-2.5">{{ \Carbon\Carbon::parse($loan->tanggal_pinjam)->translatedFormat('d M Y') }}</td>
-                        <td class="px-4 py-2.5">{{ \Carbon\Carbon::parse($loan->tanggal_kembali)->translatedFormat('d M Y') }}</td>
-                        @php
-                            $status = strtolower($loan->status);
-                        @endphp
-                        <td class="px-4 py-2.5">
-                            @if($status === 'dipinjam')
-                                <span class="text-[13px] rounded-md py-1 px-3 bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-100">
-                                    Dipinjam
-                                </span>
-                            @elseif($status === 'dikembalikan' || $status === 'kembali')
-                                <span class="text-[13px] rounded-md py-1 px-3 bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-100">
-                                    Dikembalikan
-                                </span>
-                            @elseif($status === 'terlambat')
-                                <span class="text-[13px] rounded-md py-1 px-3 bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-100">
-                                    Terlambat
-                                </span>
-                            @elseif($status === 'ditolak')
-                                <span class="text-[13px] rounded-md py-1 px-3 bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-100">
-                                    Ditolak
-                                </span>
-                            @else
-                                <span class="text-[13px] rounded-md py-1 px-3 bg-gray-100 text-gray-700 dark:bg-gray-900 dark:text-gray-100">
-                                    {{ ucfirst($loan->status) }}
-                                </span>
-                            @endif
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
-
-@endsection

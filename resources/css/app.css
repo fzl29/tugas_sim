@@ -13,7 +13,6 @@
         "Noto Color Emoji";
     --font-manrope: "Manrope", sans-serif;
     --font-raleway: "Raleway", sans-serif;
-    --font-ancizar: "Ancizar Serif", serif;
 
     --color-light1: #1c72ff;
     --color-light2: #175ed3;
@@ -156,7 +155,7 @@
     }
 
     .book .container-book .card {
-        @apply cursor-pointer bg-light7 dark:bg-dark7 w-fit p-5 rounded-md shadow-lg text-left dark:shadow-gray-800;
+        @apply flex flex-col justify-between cursor-pointer bg-light7 dark:bg-dark7 w-fit p-5 rounded-md shadow-lg text-left dark:shadow-gray-800;
     }
 
     .book .container-book .card img {
@@ -164,15 +163,7 @@
     }
 
     .book .container-book .card h3 {
-        @apply text-[19px] font-semibold text-light3 dark:text-dark3 font-raleway mt-[15px] mb-[5px];
-    }
-
-    .book .container-book .card .item {
-        @apply flex gap-2 items-center relative;
-    }
-
-    .book .container-book .card .item .star {
-        @apply flex absolute right-0;
+        @apply text-[19px] w-[225px] font-semibold text-light3 dark:text-dark3 font-raleway mt-[15px] mb-[5px];
     }
 
     .book .variasi {

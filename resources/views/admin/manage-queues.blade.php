@@ -55,7 +55,9 @@
                         </td>
                     </tr>
                     @empty
-                    <tr><td colspan="8">Tidak ada antrian</td></tr>
+                    <tr class="border-b border-light5 dark:border-dark5">
+                        <td colspan="8" class="px-4 py-4 text-center">Tidak ada antrian pinjaman</td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>

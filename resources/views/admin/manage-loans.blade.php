@@ -48,7 +48,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($loans as $i => $loan)
+                    @forelse($loans as $i => $loan)
                         <tr class="border-b border-light5 dark:border-dark5">
                             <td class="px-4 py-2.5">{{ $i+1 }}</td>
                             <td class="px-4 py-2.5">{{ $loan->queue->queue_number ?? '-' }}</td>
@@ -93,7 +93,11 @@
                                 @endif
                             </td>
                         </tr>
-                    @endforeach
+                        @empty
+                        <tr class="border-b border-light5 dark:border-dark5">
+                            <td colspan="8" class="px-4 py-4 text-center">Tidak ada riwayat peminjaman</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

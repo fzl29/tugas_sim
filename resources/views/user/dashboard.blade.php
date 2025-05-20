@@ -131,7 +131,7 @@
         <div class="p-6 h-fit rounded-md border bg-light7 dark:bg-dark7 border-light5 dark:border-dark5">
             <h3 class="text-[19px] text-center font-semibold text-light3 dark:text-dark3 mb-6 font-raleway">Notifikasi</h3>
             <ul class="space-y-4 text-[15px]">
-                <li>Buku "Algoritma dan Struktur Data" siap diambil. [Hari ini, 25 April 2025]</li>
+                {{-- <li>Buku "Algoritma dan Struktur Data" siap diambil. [Hari ini, 25 April 2025]</li> --}}
             </ul>
         </div>
     </div>

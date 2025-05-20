@@ -42,8 +42,8 @@
         <h3 class="text-lg font-semibold text-light3 dark:text-dark3 font-raleway mb-4">Statistik Peminjaman</h3>
         <a href="{{ route('admin.dashboard.export-pdf') }}" class="h-fit cursor-pointer px-6 py-2 bg-green-500 text-light7 rounded-md hover:bg-green-600 transition-all duration-200 font-raleway font-semibold">Download Rekap PDF</a>
     </div>
-    <div class="h-[300px] bg-light6 dark:bg-dark6 flex justify-center items-center mt-6">
-        <canvas id="loanChart" height="100"></canvas>
+    <div class="h-[300px] bg-light6 dark:bg-dark6 flex justify-center items-center mt-6 relative">
+        <canvas id="loanChart" class="w-full h-full"></canvas>
     </div>
 </section>
 
@@ -51,30 +51,84 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 const ctx = document.getElementById('loanChart').getContext('2d');
+
+// Gradient seperti grafik trading
+const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+gradient.addColorStop(0, 'rgba(54, 162, 235, 0.4)');
+gradient.addColorStop(1, 'rgba(54, 162, 235, 0.05)');
+
 const loanChart = new Chart(ctx, {
-    type: 'line', // Ganti dari 'bar' ke 'line'
+    type: 'line',
     data: {
         labels: {!! json_encode($loansPerMonth->pluck('month')) !!},
         datasets: [{
             label: 'Peminjaman per Bulan',
             data: {!! json_encode($loansPerMonth->pluck('total')) !!},
-            fill: true, // Area bawah garis diwarnai (optional, ala trading)
-            backgroundColor: 'rgba(54, 162, 235, 0.12)', // area fill
-            borderColor: 'rgba(54, 162, 235, 1)', // warna garis
-            tension: 0.4, // bikin garis melengkung smooth (0.4-0.5 recommended)
-            pointBackgroundColor: 'rgba(54, 162, 235, 1)', // titik-titik
-            pointRadius: 4
+            fill: true,
+            backgroundColor: gradient,
+            borderColor: 'rgba(54, 162, 235, 1)',
+            pointBackgroundColor: '#1d4ed8',
+            pointBorderColor: '#1d4ed8',
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            tension: 0.45
         }]
     },
     options: {
         responsive: true,
+        interaction: {
+            mode: 'index',
+            intersect: false,
+        },
         plugins: {
-            legend: { display: true }
+            legend: {
+                labels: {
+                    color: '#000000', // Warna hitam untuk label
+                    font: {
+                        family: 'Raleway',
+                        size: 14
+                    },
+                    usePointStyle: true, // Gunakan bentuk bulat
+                    pointStyle: 'circle', // Bentuk lingkaran
+                    boxWidth: 10, // Lebar lingkaran
+                    boxHeight: 10, // Tinggi lingkaran
+                    borderRadius: 50 // Pastikan bentuknya bulat sempurna
+                }
+            },
+            tooltip: {
+                backgroundColor: '#1e293b',
+                titleColor: '#f8fafc',
+                bodyColor: '#e2e8f0',
+                padding: 12,
+                borderColor: '#334155',
+                borderWidth: 1,
+                cornerRadius: 6
+            }
         },
         scales: {
+            x: {
+                ticks: {
+                    color: '#94a3b8',
+                    font: {
+                        family: 'Raleway'
+                    }
+                },
+                grid: {
+                    color: 'rgba(148, 163, 184, 0.2)'
+                }
+            },
             y: {
                 beginAtZero: true,
-                stepSize: 1
+                ticks: {
+                    stepSize: 1,
+                    color: '#94a3b8',
+                    font: {
+                        family: 'Raleway'
+                    }
+                },
+                grid: {
+                    color: 'rgba(148, 163, 184, 0.2)'
+                }
             }
         }
     }

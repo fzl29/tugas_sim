@@ -73,15 +73,15 @@
         <form method="POST" action="{{ route('admin.books.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="grid grid-cols-2 gap-y-4 gap-x-5 text-[15px] mb-6">
-                <x-form.input-field name="title" label="Judul Buku" place="Masukkan judul buku" :value="old('title')" />
+                <x-form.input-field name="title" label="Judul Buku" place="Masukkan judul buku" :value="old('title')" :required="true"/>
                 
-                <x-form.input-field name="author" label="Penulis Buku" place="Masukkan penulis buku" :value="old('author')" />
+                <x-form.input-field name="author" label="Penulis Buku" place="Masukkan penulis buku" :value="old('author')" :required="true"/>
                 
                 <x-form.input-select name="is_available" place="Pilih Status" label="Status Buku" :selected="old('is_available', 1)" :options="[1 => 'Tersedia', 0 => 'Tidak Tersedia']"/>
                 
                 <x-form.input-select name="category_id" place="Pilih Kategori" label="Kategori Buku" :selected="old('category_id')" :options="$categories->pluck('name', 'id')->toArray()"/>
                 
-                <x-form.input-file name="cover" label="Cover Buku" />
+                <x-form.input-file name="cover" label="Cover Buku" :required="true"/>
             </div>
 
             <x-form.button-submit name="Tambahkan Buku Baru" />

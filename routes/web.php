@@ -7,6 +7,7 @@ use App\Http\Controllers\LoanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserBookLoanController;
+use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\AdminDashboardController;
 
 // Landing Page
@@ -45,9 +46,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
 // User Routes (Mahasiswa)
 Route::middleware(['auth', 'role:user'])->prefix('user')->name('user.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('user.dashboard'); // views/user/dashboard.blade.php
-    })->name('dashboard');
+    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/profile', [UserController::class, 'showProfile'])->name('profile');
     Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');

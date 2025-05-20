@@ -22,9 +22,9 @@
             @method('PUT')
             
             <div class="grid grid-cols-2 gap-y-4 gap-x-5 text-[15px] mb-6">
-                <x-form.input-field name="title" label="Judul Buku" place="Masukkan judul buku" :value="old('title', $book->title)" required />
+                <x-form.input-field name="title" label="Judul Buku" place="Masukkan judul buku" :value="old('title', $book->title)" />
                 
-                <x-form.input-field name="author" label="Penulis Buku" place="Masukkan penulis buku" :value="old('author', $book->author)" required />
+                <x-form.input-field name="author" label="Penulis Buku" place="Masukkan penulis buku" :value="old('author', $book->author)" />
                 
                 <x-form.input-select name="is_available" place="Pilih Status" label="Status Buku" :selected="old('is_available', $book->is_available)" :options="[1 => 'Tersedia', 0 => 'Tidak Tersedia']" required />
                 

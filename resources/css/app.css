@@ -40,9 +40,25 @@
 }
 
 @layer components {
+    /* ------------------------ 
+        Back to Top Section
+    --------------------------- */
+    .backToTop {
+        @apply z-[999] text-center invisible fixed bottom-[25px] right-[25px] rounded-[10px] w-[35px] h-[35px] cursor-pointer opacity-0 flex items-center justify-center hover:rotate-45 transition-all duration-700 bg-light1 text-light6 hover:bg-light2 dark:bg-dark1 dark:text-dark6 dark:hover:bg-dark2;
+    }
+
+    .backToTop.show {
+        @apply opacity-100 visible;
+    }
+
+    .backToTop svg {
+        @apply transition-transform duration-600 hover:-rotate-45 absolute;
+    }
+
     /* ----------------------  
-        Navbar Utama (Home) 
+        Landing Page (Home) 
     ------------------------- */
+    /* ======= Navbar ======= */
     .navbar {
         @apply md:flex text-[16px] text-light4 dark:text-dark4 z-50 hidden justify-between py-[15px] sticky top-0 px-[100px] items-center font-raleway font-semibold bg-[#f9fafbba] dark:bg-[#121212ba];
     }
@@ -111,24 +127,7 @@
         @apply bg-light1 text-light6 hover:bg-light2 dark:bg-dark1 dark:text-dark6 dark:hover:bg-dark2 h-fit font-semibold py-[7px] px-[30px] rounded-md transition-all duration-300;
     }
 
-    /* ------------------------ 
-        Back to Top Section
-    --------------------------- */
-    .backToTop {
-        @apply z-[999] text-center invisible fixed bottom-[25px] right-[25px] rounded-[10px] w-[35px] h-[35px] cursor-pointer opacity-0 flex items-center justify-center hover:rotate-45 transition-all duration-700 bg-light1 text-light6 hover:bg-light2 dark:bg-dark1 dark:text-dark6 dark:hover:bg-dark2;
-    }
-
-    .backToTop.show {
-        @apply opacity-100 visible;
-    }
-
-    .backToTop svg {
-        @apply transition-transform duration-600 hover:-rotate-45 absolute;
-    }
-
-    /* ------------------------ 
-        Index (Home)
-    --------------------------- */
+    /* ======= Hero Section ======= */
     .home {
         @apply scroll-mt-24 h-screen max-w-[1150px] mx-auto flex items-center gap-[80px] -mt-[75px] pt-[50px];
     }
@@ -145,7 +144,7 @@
         @apply flex items-center w-fit text-[17px] font-raleway font-semibold py-[10px] px-[30px] rounded-md gap-[10px] transition-all duration-300 bg-light1 text-light6 hover:bg-light2 dark:bg-dark1 dark:text-dark6 dark:hover:bg-dark2;
     }
 
-    /* ====== Book ====== */
+    /* ======= Book Section ======= */
     .book {
         @apply scroll-mt-24 max-w-[1100px] mx-auto mt-[50px] mb-[150px];
     }
@@ -170,7 +169,7 @@
         @apply -mt-[200px] bg-light1 dark:bg-dark1 h-[242px] rounded-t-[50px];
     }
 
-    /* ====== About ====== */
+    /* ======= About Section ======= */
     .about {
         @apply mb-[200px] scroll-mt-24;
     }
@@ -221,7 +220,7 @@
         animation-play-state: paused;
     }
 
-    /* ====== Contact ====== */
+    /* ======= Contact Section ======= */
     .contact {
         @apply relative max-w-[1100px] mx-auto scroll-mt-24 mb-[120px];
     }
@@ -263,19 +262,19 @@
     }
 
     .login .logo {
-        @apply flex justify-between px-[50px];
+        @apply flex justify-between px-5;
     }
 
     .login .logo h1 {
-        @apply text-light1 dark:text-dark1 text-[45px] pt-[10px] font-raleway font-bold -mb-[5px];
+        @apply text-light1 dark:text-dark1 md:text-[45px] text-[35px] pt-[10px] font-raleway font-bold -mb-[5px];
     }
 
     .login .logo h2 {
-        @apply text-[17px] font-manrope font-medium;
+        @apply md:text-[17px] text-[14px] font-manrope font-medium;
     }
 
     .login .container-login {
-        @apply mt-[55px] max-w-[1100px] mx-auto flex items-center justify-between;
+        @apply mt-[55px] max-w-[1100px] mx-auto flex items-center justify-between px-5;
     }
 
     .login .container-login h3 {
@@ -284,6 +283,10 @@
 
     .login .container-login form {
         @apply flex flex-col gap-4 mt-[30px];
+    }
+
+    .login .container-form {
+        @apply mx-auto lg:border-0 border border-light5 dark:border-dark5 rounded-md p-6;
     }
 
     .login .container-login input {
@@ -315,6 +318,6 @@
     }
 
     .footer-login {
-        @apply absolute bottom-7 w-full text-center;
+        @apply fixed bottom-7 w-full text-center;
     }
 }

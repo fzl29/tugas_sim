@@ -47,9 +47,9 @@
 
     {{-- ======= Login Section ======= --}}
     <div class="container-login">
-        <img src="{{ asset('assets/images/illustrasi-lightlog.svg') }}" alt="Illustrasi Vector" loading="lazy" class="block dark:hidden">
-        <img src="{{ asset('assets/images/illustrasi-darklog.svg') }}" alt="Illustrasi Vector" loading="lazy" class="hidden dark:block">
-        <div>
+        <img src="{{ asset('assets/images/illustrasi-lightlog.svg') }}" alt="Illustrasi Vector" loading="lazy" class="lg:block hidden dark:hidden">
+        <img src="{{ asset('assets/images/illustrasi-darklog.svg') }}" alt="Illustrasi Vector" loading="lazy" class="hidden dark:hidden dark:lg:block">
+        <div class="container-form">
             <div>
                 <h3>Selamat Datang!</h3>
                 <h4>Silahkan Login akun Anda untuk meminjam buku.</h4>

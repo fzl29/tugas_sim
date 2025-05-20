@@ -12,7 +12,7 @@
             </a>
             @if(request()->routeIs('admin.books.edit'))
             <a href="{{ route('admin.books.edit', $book->id) }}" class="ml-5 flex items-center gap-2 py-2.5 px-3.5 rounded transition-all duration-200 bg-light8 text-light1 dark:bg-dark8 dark:text-dark1">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="23" height="23"><rect width="256" height="256" fill="none"/><rect x="32" y="48" width="192" height="160" rx="8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="32" y1="80" x2="224" y2="80" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M168,112a40,40,0,0,1-80,0" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="23" height="23"><rect width="256" height="256" fill="none"/><polygon points="128 160 96 160 96 128 192 32 224 64 128 160" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="168" y1="56" x2="200" y2="88" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M216,128v80a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V48a8,8,0,0,1,8-8h80" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
                 Edit Buku
             </a>
             @endif

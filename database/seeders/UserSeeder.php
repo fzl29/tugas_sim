@@ -15,22 +15,34 @@ class UserSeeder extends Seeder
             'name' => 'Admin Perpustakaan',
             'username' => 'admin',
             'email' => 'admin@sipus.com',
-            'password' => Hash::make('password'), // Default password
+            'password' => Hash::make('password'), 
             'role' => 'admin',
-            'identifier' => '56237772990', // Example NUPTK
+            'identifier' => '56237772990', 
             'phone' => '081234567890',
             'avatar' => null,
         ]);
 
         // User Role
         User::create([
-            'name' => 'Mahasiswa 1',
-            'username' => 'mahasiswa1',
+            'name' => 'Tubagus Farhan Nur Hakim',
+            'username' => 'farhan',
             'email' => 'mahasiswa1@sipus.com',
-            'password' => Hash::make('password'), // Default password
+            'password' => Hash::make('password'), 
             'role' => 'user',
-            'identifier' => '221091750027', // Example NIM
+            'identifier' => '221091750027',
             'phone' => '081345678901',
+            'avatar' => null,
+        ]);
+
+        // User Role
+        User::create([
+            'name' => 'Tubagus Tirta Nur Gilba',
+            'username' => 'gilba',
+            'email' => 'mahasiswa2@sipus.com',
+            'password' => Hash::make('password'), 
+            'role' => 'user',
+            'identifier' => '221091750028',
+            'phone' => '081345678201',
             'avatar' => null,
         ]);
     }

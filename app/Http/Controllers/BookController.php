@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 class BookController extends Controller
 {
     /**
-     * Display a listing of the books.
+     * Menampilkan halaman manajemen buku (admin).
      */
     public function index()
     {
@@ -23,7 +23,7 @@ class BookController extends Controller
     }
 
     /**
-     * Store a newly created book in storage.
+     * Menyimpan buku baru ke database.
      */
     public function store(Request $request)
     {
@@ -49,7 +49,7 @@ class BookController extends Controller
     }
 
     /**
-     * Show the form for editing the specified book.
+     * Menampilkan form edit buku (admin).
      */
     public function edit(Book $book)
     {
@@ -58,7 +58,7 @@ class BookController extends Controller
     }
 
     /**
-     * Update the specified book in storage.
+     * Memperbarui data buku yang ada.
      */
     public function update(Request $request, Book $book)
     {
@@ -88,7 +88,7 @@ class BookController extends Controller
     }
 
     /**
-     * Remove the specified book from storage.
+     * Menghapus buku secara permanen.
      */
     public function destroy(Book $book)
     {
@@ -102,7 +102,9 @@ class BookController extends Controller
             ->with('success', 'Buku <strong>' . e($book->title) . '</strong> berhasil dihapus!');
     }
 
-
+    /**
+     * Menampilkan daftar buku untuk user (dengan filter kategori).
+     */
     public function listForUser(Request $request)
     {
         $categories = Category::orderBy('created_at', 'asc')->get();

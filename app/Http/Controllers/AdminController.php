@@ -9,14 +9,18 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
-    // Menampilkan halaman profile
+    /**
+     * Menampilkan halaman profil admin.
+     */
     public function showProfile()
     {
         $admin = Auth::user(); // Ambil data admin yang sedang login
         return view('admin.profile', compact('admin'));
     }
 
-    // Update profile (email, phone, avatar)
+    /**
+     * Memproses update profil admin.
+     */
     public function updateProfile(Request $request)
     {
         $request->validate([
@@ -50,7 +54,9 @@ class AdminController extends Controller
         return back()->with('success', 'Profile berhasil diperbarui.');
     }
 
-    // Update password
+    /**
+     * Memproses update password admin.
+     */
     public function updatePassword(Request $request)
     {
         $request->validate([
@@ -80,6 +86,9 @@ class AdminController extends Controller
         return back()->with('success', 'Password berhasil diperbarui.');
     }
 
+    /**
+     * Menampilkan halaman manajemen antrian buku.
+     */
     public function manageQueues()
     {
         $queues = \App\Models\Queue::with(['user', 'book'])
@@ -88,6 +97,9 @@ class AdminController extends Controller
         return view('admin.manage-queues', compact('queues'));
     }
 
+    /**
+     * Menolak antrian buku berdasarkan ID.
+     */
     public function rejectQueue($id)
     {
         $queue = \App\Models\Queue::findOrFail($id);
@@ -100,6 +112,9 @@ class AdminController extends Controller
         return back()->with('success', 'Antrian ditolak!');
     }
 
+    /**
+     * Menyetujui antrian buku berdasarkan ID.
+     */
     public function approveQueue($id)
     {
         $queue = \App\Models\Queue::findOrFail($id);

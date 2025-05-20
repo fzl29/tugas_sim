@@ -11,6 +11,9 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class AdminDashboardController extends Controller
 {
+    /**
+     * Tampilkan data ringkasan dashboard admin.
+     */
     public function index()
     {
         $userCount = User::count();
@@ -35,7 +38,7 @@ class AdminDashboardController extends Controller
         // Ambil 5 (atau 10) peminjaman terbaru
         $latestLoans = Loan::with(['book', 'user'])
             ->orderBy('created_at', 'desc')
-            ->take(5) // Ganti 5 jadi 10 jika ingin 10 data
+            ->take(5) 
             ->get();
 
         return view('admin.dashboard', compact(
@@ -45,10 +48,13 @@ class AdminDashboardController extends Controller
             'pendingLoans',
             'loansPerMonth',
             'loansPerWeek',
-            'latestLoans' // Tambahkan ke compact
+            'latestLoans' 
         ));
     }
 
+    /**
+     * Ekspor data statistik peminjaman ke dalam file PDF.
+     */
     public function exportPdf()
     {
         $userCount = User::count();

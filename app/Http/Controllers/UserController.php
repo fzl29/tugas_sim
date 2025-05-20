@@ -9,14 +9,18 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    // Menampilkan halaman profile
+    /**
+     * Menampilkan halaman profil user.
+     */
     public function showProfile()
     {
         $user = Auth::user(); // Ambil data user yang sedang login
         return view('user.profile', compact('user'));
     }
 
-    // Update profile (email, phone, avatar)
+    /**
+     * Memproses update profil user.
+     */
     public function updateProfile(Request $request)
     {
         $request->validate([
@@ -50,7 +54,9 @@ class UserController extends Controller
         return back()->with('success', 'Profile berhasil diperbarui.');
     }
 
-    // Update password
+    /**
+     * Memproses update password user.
+     */
     public function updatePassword(Request $request)
     {
         $request->validate([

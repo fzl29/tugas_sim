@@ -11,6 +11,9 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserBookLoanController extends Controller
 {
+    /**
+     * Menampilkan form peminjaman buku, termasuk buku yang dipilih dan tersedia.
+     */
     public function form(Request $request)
     {
         $bookIds = (array) $request->input('book_id', []);
@@ -32,6 +35,9 @@ class UserBookLoanController extends Controller
         ]);
     }
 
+    /**
+     * Menyimpan data peminjaman dan antrian buku yang diajukan user.
+     */
     public function submit(Request $request)
     {
         $request->validate([
@@ -67,6 +73,9 @@ class UserBookLoanController extends Controller
         return redirect()->route('user.queue')->with('success', 'Pengajuan pinjaman buku berhasil!');
     }
 
+    /**
+     * Menampilkan daftar antrian peminjaman buku milik user.
+     */
     public function userQueue()
     {
         $queues = \App\Models\Queue::with(['book'])
@@ -76,6 +85,9 @@ class UserBookLoanController extends Controller
         return view('user.queue', compact('queues'));
     }
 
+    /**
+     * Mengunduh bukti antrian peminjaman dalam bentuk PDF.
+     */
     public function printQueue($id)
     {
         $queue = \App\Models\Queue::with('book')->where('user_id', Auth::id())->findOrFail($id);
@@ -83,6 +95,9 @@ class UserBookLoanController extends Controller
         return $pdf->download('bukti_antrian_' . $queue->queue_number . '.pdf');
     }
 
+    /**
+     * Membatalkan antrian peminjaman buku dan mengubah status buku jadi tersedia kembali.
+     */
     public function cancelQueue($id)
     {
         $queue = \App\Models\Queue::where('user_id', Auth::id())->findOrFail($id);

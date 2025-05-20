@@ -26,10 +26,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    // Accessor for avatar
     public function getAvatarAttribute($value)
     {
-        // Return avatar if exists, otherwise return default avatar path
         return $value ? asset($value) : asset('assets/images/avatar.png');
     }
 

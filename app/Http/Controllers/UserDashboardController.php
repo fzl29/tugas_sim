@@ -10,18 +10,24 @@ use Illuminate\Support\Facades\Auth;
 
 class UserDashboardController extends Controller
 {
+    /**
+     * Menampilkan dashboard user dengan data:
+     * - Jumlah buku yang sedang dipinjam
+     * - Jumlah antrian aktif
+     * - 7 buku terbaru
+     * - Posisi antrian saat ini (jika ada)
+     * - Status antrian saat ini (jika ada)
+     * - 10 riwayat peminjaman terakhir
+     */
     public function index()
     {
         $userId = Auth::id();
 
-        // 1. Statistik peminjaman
         $bukuDipinjam = Loan::where('user_id', $userId)->where('status', 'dipinjam')->count();
         $antrianAktif = Loan::where('user_id', $userId)->where('status', 'menunggu')->count();
 
-        // 2. Buku terbaru
         $bukuTerbaru = Book::orderBy('created_at', 'desc')->take(7)->get();
 
-        // 3. Data antrian (untuk nomor urut antrian user)
         $allActiveQueues = Queue::whereIn('status', ['menunggu', 'aktif'])
             ->orderBy('created_at')
             ->get();
@@ -35,7 +41,6 @@ class UserDashboardController extends Controller
             $queueStatus = $userQueue->status;
         }
 
-        // 4. Riwayat peminjaman (10 terbaru)
         $riwayatPeminjaman = Loan::with('book')
             ->where('user_id', $userId)
             ->orderBy('created_at', 'desc')

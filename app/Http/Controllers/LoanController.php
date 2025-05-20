@@ -7,12 +7,18 @@ use Illuminate\Support\Facades\Auth;
 
 class LoanController extends Controller
 {
+    /**
+     * Menampilkan halaman manajemen semua data peminjaman (admin).
+     */
     public function manageLoans()
     {
         $loans = \App\Models\Loan::with(['user', 'book', 'queue'])->orderBy('loan_date', 'desc')->get();
         return view('admin.manage-loans', compact('loans'));
     }
 
+    /**
+     * Mengonfirmasi pengembalian buku dan menghitung denda jika terlambat.
+     */
     public function confirmReturn(Request $request, $id)
     {
         $loan = \App\Models\Loan::findOrFail($id);
@@ -39,12 +45,14 @@ class LoanController extends Controller
             $loan->status = 'Terlambat';
             $loan->fine = $fine;
             $loan->save();
-            // Tidak mengubah status buku
         }
 
         return redirect()->back()->with('success', 'Status pinjaman diperbarui!');
     }
 
+    /**
+     * Menampilkan riwayat peminjaman buku oleh user.
+     */
     public function userHistory()
     {
         $userId = Auth::id(); 

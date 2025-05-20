@@ -7,16 +7,19 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    // Menampilkan form login
+    /**
+     * Menampilkan form login.
+     */
     public function showLoginForm()
     {
         return view('auth.login'); 
     }
 
-    // Proses login
+    /**
+     * Memproses login dan redirect sesuai role.
+     */
     public function login(Request $request)
     {
-        // Validasi input dengan pesan dalam bahasa Indonesia
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
@@ -25,7 +28,6 @@ class AuthController extends Controller
             'password.required' => 'Password wajib diisi.',
         ]);
 
-        // Attempt login menggunakan username dan password
         if (Auth::attempt($request->only('username', 'password'))) {
             $user = Auth::user();
 
@@ -37,11 +39,12 @@ class AuthController extends Controller
             }
         }
 
-        // Jika gagal login
         return back()->withErrors(['username' => 'Username atau password salah!']);
     }
 
-    // Logout
+    /**
+     * Logout pengguna dan redirect ke halaman login.
+     */
     public function logout()
     {
         Auth::logout();

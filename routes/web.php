@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\LoanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserBookLoanController;
@@ -37,9 +38,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::put('/queues/{queue}/approve', [AdminController::class, 'approveQueue'])->name('queue.approve');
     Route::put('/queues/{queue}/reject', [AdminController::class, 'rejectQueue'])->name('queue.reject');
 
-    Route::get('/manage-loans', function () {
-        return view('admin.manage-loans'); // views/admin/manage-loans.blade.php
-    })->name('manage-loans');
+    Route::get('/manage-loans', [LoanController::class, 'manageLoans'])->name('manage-loans');
+    Route::post('/confirm-return/{id}', [LoanController::class, 'confirmReturn'])->name('confirm-return');
 
 });
 
@@ -61,7 +61,5 @@ Route::middleware(['auth', 'role:user'])->prefix('user')->name('user.')->group(f
     Route::get('/queue/{queue}/print', [UserBookLoanController::class, 'printQueue'])->name('queue.print');
     Route::delete('/queue/{queue}', [UserBookLoanController::class, 'cancelQueue'])->name('queue.cancel');
 
-    Route::get('/history', function () {
-        return view('user.history'); // views/user/history.blade.php
-    })->name('history');
+    Route::get('/history', [LoanController::class, 'userHistory'])->name('history');
 });

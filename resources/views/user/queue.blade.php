@@ -6,8 +6,9 @@
 
 @include('components.title', ['title' => 'Antrian', 'subtitle' => 'Antrian Pinjaman'])
 
-<section class="p-6 rounded-md bg-light7 dark:bg-dark7 text-light4 dark:text-dark4 border border-light5 dark:border-dark5">
-    <div id="content-default" class="w-full overflow-x-auto">
+<section class="px-6 pb-6 pt-1 rounded-md bg-light7 dark:bg-dark7 text-light4 dark:text-dark4 border border-light5 dark:border-dark5">
+    @include('components.alert')
+    <div id="content-default" class="w-full overflow-x-auto mt-5">
         <div class="min-w-[1000px]">
             <table class="w-full table-auto text-[15px]">
                 <thead class="bg-light8 dark:bg-dark8 text-light1 dark:text-dark1 ">
@@ -32,7 +33,7 @@
                         <td class="px-4 py-2.5">{{ \Carbon\Carbon::parse($queue->return_date)->format('d M Y') }}</td>
                         <td class="px-4 py-2.5">
                             @if($queue->status == 'menunggu')
-                                <span class="text-[13px] rounded-md py-1 px-3 bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-100">Menunggu</span>
+                                <span class="text-[13px] rounded-md py-1 px-3 bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-100">Menunggu</span>
                             @elseif($queue->status == 'disetujui')
                                 <span class="text-[13px] rounded-md py-1 px-3 bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-100">Disetujui</span>
                             @else

@@ -7,7 +7,7 @@
 @include('components.title', ['title' => 'Riwayat', 'subtitle' => 'Riwayat Pinjaman'])
 
 <section class="p-6 rounded-md bg-light7 dark:bg-dark7 text-light4 dark:text-dark4 border border-light5 dark:border-dark5">
-    <div id="content-default" class="w-full overflow-x-auto mt-6">
+    <div id="content-default" class="w-full overflow-x-auto">
         <div class="min-w-[1000px]">
             <table class="w-full table-auto text-[15px]">
                 <thead class="bg-light8 dark:bg-dark8 text-light1 dark:text-dark1 ">
@@ -22,34 +22,39 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- Data dummy sementara --}}
-                    <tr class="border-b border-light5 dark:border-dark5">
-                        <td class="px-4 py-2.5">1</td>
-                        <td class="px-4 py-2.5">BK-0001</td>
-                        <td class="px-4 py-2.5">Star Wars the Of Legends</td>
-                        <td class="px-4 py-2.5">25 April 2025</td>
-                        <td class="px-4 py-2.5">27 April 2025</td>
-                        <td class="px-4 py-2.5"><span class="text-[13px] rounded-md py-1 px-3 bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-100">Terlambat</span></td>
-                        <td class="px-4 py-2.5">Rp 10.000</td>
-                    </tr>
-                    <tr class="border-b border-light5 dark:border-dark5">
-                        <td class="px-4 py-2.5">2</td>
-                        <td class="px-4 py-2.5">BK-0001</td>
-                        <td class="px-4 py-2.5">Star Wars the Of Legends</td>
-                        <td class="px-4 py-2.5">25 April 2025</td>
-                        <td class="px-4 py-2.5">27 April 2025</td>
-                        <td class="px-4 py-2.5"><span class="text-[13px] rounded-md py-1 px-3 bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-100">Dikembalikan</span></td>
-                        <td class="px-4 py-2.5">Rp 0</td>
-                    </tr>
-                    <tr class="border-b border-light5 dark:border-dark5">
-                        <td class="px-4 py-2.5">3</td>
-                        <td class="px-4 py-2.5">BK-0001</td>
-                        <td class="px-4 py-2.5">Star Wars the Of Legends</td>
-                        <td class="px-4 py-2.5">25 April 2025</td>
-                        <td class="px-4 py-2.5">27 April 2025</td>
-                        <td class="px-4 py-2.5"><span class="text-[13px] rounded-md py-1 px-3 bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-100">Dipinjam</span></td>
-                        <td class="px-4 py-2.5">Rp 0</td>
-                    </tr>
+                    @foreach($loans as $i => $loan)
+                        <tr class="border-b border-light5 dark:border-dark5">
+                            <td class="px-4 py-2.5">{{ $i+1 }}</td>
+                            <td class="px-4 py-2.5">{{ $loan->queue->queue_number ?? '-' }}</td>
+                            <td class="px-4 py-2.5">{{ $loan->book->title ?? '-' }}</td>
+                            <td class="px-4 py-2.5">{{ \Carbon\Carbon::parse($loan->loan_date)->format('d M Y') }}</td>
+                            <td class="px-4 py-2.5">{{ \Carbon\Carbon::parse($loan->return_date)->format('d M Y') }}</td>
+                            <td class="px-4 py-2.5">
+                                @php
+                                    $status = $loan->status == 'Dipinjam' || $loan->status == 'disetujui' ? 'Dipinjam' : (
+                                        $loan->status == 'Dikembalikan' ? 'Dikembalikan' : (
+                                        $loan->status == 'Terlambat' ? 'Terlambat' : $loan->status
+                                    ));
+                                @endphp
+                                @if($status == 'Dipinjam')
+                                    <span class="text-[13px] rounded-md py-1 px-3 bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-100">Dipinjam</span>
+                                @elseif($status == 'Dikembalikan')
+                                    <span class="text-[13px] rounded-md py-1 px-3 bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-100">Dikembalikan</span>
+                                @elseif($status == 'Terlambat')
+                                    <span class="text-[13px] rounded-md py-1 px-3 bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-100">Terlambat</span>
+                                @elseif(strtolower($status) == 'menunggu')
+                                    <span class="text-[13px] rounded-md py-1 px-3 bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-100">
+                                        {{ ucfirst($status) }}
+                                    </span>
+                                @else
+                                    <span class="text-[13px] rounded-md py-1 px-3 bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-100">
+                                        {{ ucfirst($status) }}
+                                    </span>
+                                @endif
+                            </td>
+                            <td class="px-4 py-2.5">Rp {{ number_format($loan->fine ?? 0, 0, ',', '.') }}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

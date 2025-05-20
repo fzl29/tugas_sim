@@ -6,8 +6,9 @@
 
 @include('components.title', ['title' => 'Manage Riwayat', 'subtitle' => 'Riwayat Pinjaman'])
 
-<section class="p-6 rounded-md bg-light7 dark:bg-dark7 text-light4 dark:text-dark4 border border-light5 dark:border-dark5">
-    <div class="mb-6 flex justify-between items-center text-[15px]">
+<section class="px-6 pb-6 pt-1 rounded-md bg-light7 dark:bg-dark7 text-light4 dark:text-dark4 border border-light5 dark:border-dark5">
+    @include('components.alert')
+    <div class="mb-5 flex justify-between items-center text-[15px] mt-4">
         <div class="relative w-[300px]">
             <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-light5 dark:text-dark5">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-5 h-5"><circle cx="112" cy="112" r="80" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="168.57" y1="168.57" x2="224" y2="224" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
@@ -47,49 +48,52 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- Data dummy sementara --}}
-                    <tr class="border-b border-light5 dark:border-dark5">
-                        <td class="px-4 py-2.5">1</td>
-                        <td class="px-4 py-2.5">BK-0001</td>
-                        <td class="px-4 py-2.5">Ahmad Fauzi</td>
-                        <td class="px-4 py-2.5">Pengantar Teknologi Informasi</td>
-                        <td class="px-4 py-2.5">25 April 2025</td>
-                        <td class="px-4 py-2.5">27 April 2025</td>
-                        <td class="px-4 py-2.5"><span class="text-[13px] rounded-md py-1 px-3 bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-100">Terlambat</span></td>
-                        <td class="px-4 py-2.5">Rp 5.000</td>
-                        <td class="px-4 py-2.5">
-                            <button class="transition-all duration-200 cursor-pointer bg-green-600 hover:bg-green-700 text-light7 px-3 py-1 rounded-md text-[13px] mr-1 hidden">Sudah</button>
-                            <button class="transition-all duration-200 cursor-pointer bg-red-500 hover:bg-red-600 text-light7 px-3 py-1 rounded-md text-[13px] hidden">Belum</button> 
-                        </td>
-                    </tr>
-                    <tr class="border-b border-light5 dark:border-dark5">
-                        <td class="px-4 py-2.5">2</td>
-                        <td class="px-4 py-2.5">BK-0001</td>
-                        <td class="px-4 py-2.5">Ahmad Fauzi</td>
-                        <td class="px-4 py-2.5">Pengantar Teknologi Informasi</td>
-                        <td class="px-4 py-2.5">25 April 2025</td>
-                        <td class="px-4 py-2.5">27 April 2025</td>
-                        <td class="px-4 py-2.5"><span class="text-[13px] rounded-md py-1 px-3 bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-100">Dikembalikan</span></td>
-                        <td class="px-4 py-2.5">Rp 0</td>
-                        <td class="px-4 py-2.5">
-                            <button class="transition-all duration-200 cursor-pointer bg-green-600 hover:bg-green-700 text-light7 px-3 py-1 rounded-md text-[13px] mr-1 hidden">Sudah</button>
-                            <button class="transition-all duration-200 cursor-pointer bg-red-500 hover:bg-red-600 text-light7 px-3 py-1 rounded-md text-[13px] hidden">Belum</button> 
-                        </td>
-                    </tr>
-                    <tr class="border-b border-light5 dark:border-dark5">
-                        <td class="px-4 py-2.5">3</td>
-                        <td class="px-4 py-2.5">BK-0001</td>
-                        <td class="px-4 py-2.5">Ahmad Fauzi</td>
-                        <td class="px-4 py-2.5">Pengantar Teknologi Informasi</td>
-                        <td class="px-4 py-2.5">25 April 2025</td>
-                        <td class="px-4 py-2.5">27 April 2025</td>
-                        <td class="px-4 py-2.5"><span class="text-[13px] rounded-md py-1 px-3 bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-100">Dipinjam</span></td>
-                        <td class="px-4 py-2.5">Rp 0</td>
-                        <td class="px-4 py-2.5">
-                            <button class="transition-all duration-200 cursor-pointer bg-green-600 hover:bg-green-700 text-light7 px-3 py-1 rounded-md text-[13px] mr-1">Sudah</button>
-                            <button class="transition-all duration-200 cursor-pointer bg-red-500 hover:bg-red-600 text-light7 px-3 py-1 rounded-md text-[13px]">Belum</button> 
-                        </td>
-                    </tr>
+                    @foreach($loans as $i => $loan)
+                        <tr class="border-b border-light5 dark:border-dark5">
+                            <td class="px-4 py-2.5">{{ $i+1 }}</td>
+                            <td class="px-4 py-2.5">{{ $loan->queue->queue_number ?? '-' }}</td>
+                            <td class="px-4 py-2.5">{{ $loan->user->name ?? '-' }}</td>
+                            <td class="px-4 py-2.5">{{ $loan->book->title ?? '-' }}</td>
+                            <td class="px-4 py-2.5">{{ \Carbon\Carbon::parse($loan->loan_date)->format('d M Y') }}</td>
+                            <td class="px-4 py-2.5">{{ \Carbon\Carbon::parse($loan->return_date)->format('d M Y') }}</td>
+                            <td class="px-4 py-2.5">
+                                @php
+                                    $status = $loan->status == 'Dipinjam' || $loan->status == 'disetujui' ? 'Dipinjam' : (
+                                        $loan->status == 'Dikembalikan' ? 'Dikembalikan' : (
+                                        $loan->status == 'Terlambat' ? 'Terlambat' : $loan->status
+                                    ));
+                                @endphp
+                                @if($status == 'Dipinjam')
+                                    <span class="text-[13px] rounded-md py-1 px-3 bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-100">Dipinjam</span>
+                                @elseif($status == 'Dikembalikan')
+                                    <span class="text-[13px] rounded-md py-1 px-3 bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-100">Dikembalikan</span>
+                                @elseif($status == 'Terlambat')
+                                    <span class="text-[13px] rounded-md py-1 px-3 bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-100">Terlambat</span>
+                                @elseif(strtolower($status) == 'menunggu')
+                                    <span class="text-[13px] rounded-md py-1 px-3 bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-100">
+                                        {{ ucfirst($status) }}
+                                    </span>
+                                @else
+                                    <span class="text-[13px] rounded-md py-1 px-3 bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-100">
+                                        {{ ucfirst($status) }}
+                                    </span>
+                                @endif
+                            </td>
+                            <td class="px-4 py-2.5">Rp {{ number_format($loan->fine ?? 0, 0, ',', '.') }}</td>
+                            <td class="px-4 py-2.5">
+                                @if(!in_array($status, ['Dikembalikan', 'ditolak', 'Ditolak']))
+                                    <form action="{{ route('admin.confirm-return', $loan->id) }}" method="POST" style="display:inline-block;">
+                                        @csrf
+                                        <button name="action" value="sudah" class="transition-all duration-200 cursor-pointer bg-green-600 hover:bg-green-700 text-light7 px-3 py-1 rounded-md text-[13px] mr-1">Sudah</button>
+                                    </form>
+                                    <form action="{{ route('admin.confirm-return', $loan->id) }}" method="POST" style="display:inline-block;">
+                                        @csrf
+                                        <button name="action" value="belum" class="transition-all duration-200 cursor-pointer bg-red-600 hover:bg-red-700 text-light7 px-3 py-1 rounded-md text-[13px]">Belum</button>
+                                    </form>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

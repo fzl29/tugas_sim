@@ -6,8 +6,9 @@
 
 @include('components.title', ['title' => 'Manage Antrian', 'subtitle' => 'Kelola Antrian'])
 
-<section class="p-6 rounded-md bg-light7 dark:bg-dark7 text-light4 dark:text-dark4 border border-light5 dark:border-dark5">
-    <div class="w-full overflow-x-auto">
+<section class="px-6 pb-6 pt-1 rounded-md bg-light7 dark:bg-dark7 text-light4 dark:text-dark4 border border-light5 dark:border-dark5">
+    @include('components.alert')
+    <div class="w-full overflow-x-auto mt-5">
         <div class="min-w-[1000px]">
             <table class="w-full table-auto text-[15px] whitespace-nowrap overflow-hidden">
                 <thead class="bg-light8 dark:bg-dark8 text-light1 dark:text-dark1 ">

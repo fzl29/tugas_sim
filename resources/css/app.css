@@ -262,7 +262,7 @@
     }
 
     .login .logo {
-        @apply flex justify-between px-5;
+        @apply flex justify-between px-5 md:px-[50px];
     }
 
     .login .logo h1 {
@@ -274,7 +274,7 @@
     }
 
     .login .container-login {
-        @apply mt-[55px] max-w-[1100px] mx-auto flex items-center justify-between px-5;
+        @apply mt-[55px] max-w-[1200px] mx-auto flex items-center justify-between px-5;
     }
 
     .login .container-login h3 {
@@ -286,7 +286,7 @@
     }
 
     .login .container-form {
-        @apply mx-auto lg:border-0 border border-light5 dark:border-dark5 rounded-md p-6;
+        @apply md:mx-0 mx-auto lg:border-0 border border-light5 dark:border-dark5 rounded-md p-6;
     }
 
     .login .container-login input {

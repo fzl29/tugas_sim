@@ -16,8 +16,8 @@
     {{-- Info Account --}}
     <div id="content-default" class="px-1">
         <div class="flex justify-end text-[15px]">
-            <button type="button" id="edit-btn" class="cursor-pointer px-6 py-2 bg-orange-500 text-light7 rounded-md hover:bg-orange-600 transition-all duration-200">Edit</button>
-            <button type="button" id="cancel-btn" class="cursor-pointer px-6 py-2 bg-red-500 text-light7 rounded-md hover:bg-red-600 transition-all duration-200 hidden">Cancel</button>
+            <button type="button" id="edit-btn" class="font-raleway font-semibold cursor-pointer px-6 py-2 bg-orange-500 text-light7 rounded-md hover:bg-orange-600 transition-all duration-200">Edit</button>
+            <button type="button" id="cancel-btn" class="font-raleway font-semibold cursor-pointer px-6 py-2 bg-red-500 text-light7 rounded-md hover:bg-red-600 transition-all duration-200 hidden">Cancel</button>
         </div>
         <form id="profile-form" action="{{ route('admin.profile.update') }}" method="POST" enctype="multipart/form-data">
             @csrf

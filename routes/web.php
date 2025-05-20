@@ -7,6 +7,7 @@ use App\Http\Controllers\LoanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserBookLoanController;
+use App\Http\Controllers\AdminDashboardController;
 
 // Landing Page
 Route::get('/', function () {
@@ -20,9 +21,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Admin Routes 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard'); // views/admin/dashboard.blade.php
-    })->name('dashboard');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard/export-pdf', [AdminDashboardController::class, 'exportPdf'])->name('dashboard.export-pdf');
 
     Route::get('/profile', [AdminController::class, 'showProfile'])->name('profile');
     Route::put('/profile/update', [AdminController::class, 'updateProfile'])->name('profile.update');

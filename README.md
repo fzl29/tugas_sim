@@ -1,61 +1,152 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## SiPus Digital
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**SiPus Digital** (Sistem Informasi Perpustakaan Digital) adalah aplikasi web yang dirancang untuk memudahkan proses pengelolaan dan peminjaman buku perpustakaan secara online. Sistem ini dibuat untuk memfasilitasi digitalisasi layanan perpustakaan, sehingga seluruh proses—mulai dari pencarian buku hingga pengembalian dapat dilakukan dengan mudah, cepat, dan mengelola koleksi buku tanpa harus datang langsung ke perpustakaan.
 
-## About Laravel
+## Daftar Isi
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- [Fitur Utama](#fitur-utama)
+- [Arsitektur Sistem](#arsitektur-sistem)
+- [Tampilan Antarmuka](#tampilan-antarmuka)
+- [Panduan Instalasi](#panduan-instalasi)
+- [Kontribusi](#kontribusi)
+- [Lisensi](#lisensi)
+- [Kontak & Dukungan](#kontak--dukungan)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Fitur Utama
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. **Pencarian Buku:**
+   - Cari buku berdasarkan judul buku atau kata kunci tertentu.
+   - Filter dan urutkan hasil pencarian.
+2. **Peminjaman Buku Online:**
+   - Pengguna (user) dapat meminjam buku secara online tanpa perlu datang langsung ke perpustakaan.
+   - Melihat status peminjaman dan riwayat transaksi.
+3. **Manajemen Koleksi Buku:**
+   - Admin dapat menambah, mengedit, menghapus data buku.
+   - Upload sampul buku, kelola ketersediaan buku, dan kategori.
+5. **Dashboard Statistik:**
+   - Menampilkan statistik jumlah buku, user, transaksi peminjaman, dan pengembalian.
+6. **Riwayat Peminjaman & Notifikasi:**
+   - Pengguna dan admin dapat melihat riwayat peminjaman.
+   - Notifikasi otomatis untuk pengingat pengembalian dan status peminjaman.
+7. **Hak Akses Multi-Level:**
+   - Terdapat dua peran utama: Admin dan User.
+   - Setiap peran memiliki hak akses dan tampilan dashboard yang berbeda.
+8. **Manajemen Kategori & Rak Buku:**
+   - Kelola kategori buku dan lokasi rak untuk memudahkan penataan koleksi.
+9. **Pengaturan Profil:**
+   - Pengguna dapat mengedit profil dan mengganti password.
+10. **Responsive Design:**
+    - Tampilan website menyesuaikan dengan perangkat desktop maupun mobile.
 
-## Learning Laravel
+## Arsitektur Sistem
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Backend:** PHP (Framework Laravel 12)
+- **Frontend:** Blade (Laravel 12 Template Engine), JavaScript, CSS
+- **Database:** MySQL
+- **Autentikasi:** Laravel Auth (bawaaan Laravel)
+- **File Upload:** Laravel Storage
+- **Deployment:** Dapat dijalankan di shared hosting, VPS, atau lokal
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Diagram Alur Pengguna
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. User login
+2. User mencari buku → mengajukan peminjaman
+3. Admin menerima permintaan peminjaman → memproses → mengubah status
+4. User menerima notifikasi status peminjaman dan mendapatkan no antrian buku (PDF)
+5. Admin konfirmasi terkait pengembalian buku
+5. Semua aktivitas tercatat di dashboard
 
-## Laravel Sponsors
+## Tampilan Antarmuka
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- **Halaman Utama:** Landing page sederhana untuk pemanis.
+- **Halaman Login:** Untuk Admin dan User login ke dashboard.
 
-### Premium Partners
+- **Dashboard Admin:** Untuk melihat statistik, jumlah antrian, jumlah buku, dan riwayat pinjaman.
+- **Manajemen Buku:** Untuk Admin melihat data buku, menambahkan buku, edit, dan menghapus buku.
+- **Manajemen Antrian:** Untuk Admin menyetujui dan menolak pengajuan buku User.
+- **Manajemen Riwayat:** Untuk Admin melihat riwayat pinjaman dan mengkonfirmasi pengembalian buku.
+- **Profile Admin:** Untuk mengedit profil dan password admin.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+- **Dashboard User:** Untuk melihat jumlah antrian, buku dipinjam dan notifikasi.
+- **Daftar Buku:** Untuk User mencari buku dan melakukan pinjaman buku.
+- **Antrian Buku:** Untuk User melihat pengajuan disetujui atau tidak, jika disetujui dapat (PDF otomatis).
+- **Riwayat Buku:** Untuk User melihat riwayat buku yang telah diajukan atau dipinjam.
+- **Profile User:** Untuk mengedit profil dan password User.
 
-## Contributing
+## Panduan Instalasi
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Syarat Minimal
 
-## Code of Conduct
+- PHP >= 8.0
+- Composer
+- Node.js & npm
+- MySQL/MariaDB
+- Web server (Apache/Nginx)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Langkah Instalasi
 
-## Security Vulnerabilities
+1. **Clone repositori:**
+   ```bash
+   git clone https://github.com/tbfarhannh/sipus-digital.git
+   cd sipus-digital
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+2. **Install dependency backend:**
+   ```bash
+   composer install
+   ```
 
-## License
+3. **Install dependency frontend & build asset:**
+   ```bash
+   npm install
+   npm run dev
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+4. **Copy file environment:**
+   ```bash
+   cp .env.example .env
+   ```
+
+5. **Konfigurasi database dan email di file `.env`:**
+   - Atur DB_DATABASE, DB_USERNAME, DB_PASSWORD sesuai database Anda
+
+6. **Generate key aplikasi:**
+   ```bash
+   php artisan key:generate
+   ```
+
+7. **Migrasi dan seeding database:**
+   ```bash
+   php artisan migrate --seed
+   ```
+
+8. **Jalankan server lokal:**
+   ```bash
+   php artisan serve
+   ```
+   Akses aplikasi di [http://localhost:8000](http://localhost:8000)
+
+### Catatan Akun Admin Default (Jika Ada Seeder)
+- Username: `admin`
+- Password: `password`  
+*Segera ubah password setelah login pertama!*
+
+## Kontribusi
+
+Kontribusi sangat terbuka!  
+Langkah kontribusi:
+1. Fork repositori ini
+2. Buat branch baru (`git checkout -b fitur-baru`)
+3. Commit perubahan Anda
+4. Push ke branch Anda
+5. Buat Pull Request ke repo utama
+
+## Lisensi
+
+Proyek ini menggunakan lisensi [MIT](LICENSE).
+
+## Kontak & Dukungan
+
+Jika ada pertanyaan, laporan bug, atau saran fitur:
+- Buat [issue](https://github.com/tbfarhannh/sipus-digital/issues)
+- Atau hubungi [Instagram](https://instagram.com/tbfarhannh).

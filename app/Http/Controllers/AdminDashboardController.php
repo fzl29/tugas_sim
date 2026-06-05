@@ -21,15 +21,27 @@ class AdminDashboardController extends Controller
         $approvedLoans = Loan::where('status', 'dipinjam')->count();
         $pendingLoans = Loan::where('status', 'menunggu')->count();
 
+        $driver = DB::getDriverName();
+        if ($driver === 'sqlite') {
+            $monthFormat = 'strftime("%Y-%m", created_at) as month';
+            $weekFormat = 'strftime("%Y%W", created_at) as week';
+        } elseif ($driver === 'pgsql') {
+            $monthFormat = "to_char(created_at, 'YYYY-MM') as month";
+            $weekFormat = "to_char(created_at, 'IYYYIW') as week";
+        } else {
+            $monthFormat = 'DATE_FORMAT(created_at, "%Y-%m") as month';
+            $weekFormat = 'YEARWEEK(created_at) as week';
+        }
+
         $loansPerMonth = DB::table('loans')
-            ->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'), DB::raw('count(*) as total'))
+            ->select(DB::raw($monthFormat), DB::raw('count(*) as total'))
             ->where('status', 'dipinjam')
             ->groupBy('month')
             ->orderBy('month')
             ->get();
 
         $loansPerWeek = DB::table('loans')
-            ->select(DB::raw('YEARWEEK(created_at) as week'), DB::raw('count(*) as total'))
+            ->select(DB::raw($weekFormat), DB::raw('count(*) as total'))
             ->where('status', 'dipinjam')
             ->groupBy('week')
             ->orderBy('week')
@@ -62,8 +74,17 @@ class AdminDashboardController extends Controller
         $approvedLoans = Loan::where('status', 'dipinjam')->count();
         $pendingLoans = Loan::where('status', 'menunggu')->count();
 
+        $driver = DB::getDriverName();
+        if ($driver === 'sqlite') {
+            $monthFormat = 'strftime("%Y-%m", created_at) as month';
+        } elseif ($driver === 'pgsql') {
+            $monthFormat = "to_char(created_at, 'YYYY-MM') as month";
+        } else {
+            $monthFormat = 'DATE_FORMAT(created_at, "%Y-%m") as month';
+        }
+
         $loansPerMonth = DB::table('loans')
-            ->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'), DB::raw('count(*) as total'))
+            ->select(DB::raw($monthFormat), DB::raw('count(*) as total'))
             ->where('status', 'dipinjam')
             ->groupBy('month')
             ->orderBy('month')

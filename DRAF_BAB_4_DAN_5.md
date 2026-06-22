@@ -6,9 +6,9 @@ Tahap implementasi merupakan tahap di mana sistem siap untuk dioperasikan pada k
 #### 4.1.1 Spesifikasi Perangkat Lunak (Software)
 Pengembangan sistem **SiPus Digital** (Sistem Informasi Perpustakaan Digital) dilakukan dengan menggunakan arsitektur modern berbasis PHP dan teknologi cloud. Spesifikasi perangkat lunak yang diimplementasikan dalam pembangunan sistem ini dijabarkan sebagai berikut:
 
-1. **Sistem Operasi**: macOS / Windows 10/11 (digunakan sebagai lingkungan pengembangan lokal) dan Linux Debian/Ubuntu (digunakan dalam lingkungan container produksi di cloud Render).
+1. **Sistem Operasi**: macOS / Windows 10/11 (digunakan sebagai lingkungan pengembangan lokal) dan Linux Ubuntu (digunakan dalam lingkungan server produksi pada Hostinger VPS).
 2. **Bahasa Pemrograman Utama**:
-   * **PHP v8.5 (Lokal) / v8.3 (Produksi)**: Digunakan sebagai bahasa pemrograman utama di sisi server (*backend*) untuk menangani logika bisnis perpustakaan, manipulasi database, dan routing sistem.
+   * **PHP v8.5 (Lokal) / v8.4 (Produksi)**: Digunakan sebagai bahasa pemrograman utama di sisi server (*backend*) untuk menangani logika bisnis perpustakaan, manipulasi database, dan routing sistem.
    * **JavaScript (ES6+)**: Digunakan untuk meningkatkan interaktivitas pada antarmuka pengguna (*frontend*), seperti validasi formulir sisi klien, pengelolaan interaksi keranjang belanja buku, dan manajemen grafik.
 3. **Framework Backend (Laravel v12.13.0)**:
    * Menggunakan arsitektur *Model-View-Controller* (MVC) untuk memisahkan logika pemrosesan data (Model), representasi antarmuka (View), dan kontrol logika alur aplikasi (Controller).
@@ -19,8 +19,8 @@ Pengembangan sistem **SiPus Digital** (Sistem Informasi Perpustakaan Digital) di
    * **SQLite (Lokal)**: Digunakan untuk mempercepat proses pengembangan awal di komputer lokal tanpa memerlukan konfigurasi server database yang kompleks.
    * **MySQL**: Digunakan sebagai sistem manajemen basis data relasional (*relational database management system*) utama untuk menyimpan dan mengelola seluruh data transaksi perpustakaan digital secara terstruktur, aman, dan konsisten.
 6. **Library Ekspor Dokumen (Barryvdh Laravel DomPDF)**: Digunakan untuk mengubah representasi data HTML/CSS menjadi dokumen PDF secara otomatis. Fitur ini diimplementasikan pada pencetakan tiket antrean peminjaman buku untuk diunduh oleh mahasiswa.
-7. **Web Server & Containerization (Docker)**: Menggunakan Dockerfile *multi-stage build* untuk membungkus aplikasi. Tahap pertama (*node-builder*) mengompilasi aset JS dan CSS menggunakan Node.js, dan tahap kedua menyalin berkas aplikasi ke dalam server Apache dengan ekstensi PHP MySQL (`pdo_mysql`) yang siap dijalankan.
-8. **Platform Hosting (Render PaaS)**: Digunakan untuk mendeploy aplikasi secara otomatis dari repositori GitHub secara terus-menerus (*Continuous Deployment*).
+7. **Web Server & HTTP Reverse Proxy (Nginx)**: Digunakan sebagai web server utama di sisi produksi pada Hostinger VPS. Nginx berfungsi untuk menerima request HTTP masuk pada port 80 dan meneruskannya ke runtime PHP menggunakan FPM (FastCGI Process Manager) secara cepat dan aman.
+8. **Platform Hosting (Hostinger VPS)**: Digunakan sebagai penyedia server virtual pribadi (*Virtual Private Server*) dengan sistem operasi Linux Ubuntu untuk meng-host aplikasi perpustakaan digital secara mandiri.
 
 #### 4.1.2 Spesifikasi Perangkat Keras (Hardware)
 Kebutuhan perangkat keras minimal dan rekomendasi yang diperlukan untuk menjalankan sistem ini terbagi menjadi dua bagian, yaitu:
@@ -31,10 +31,10 @@ Kebutuhan perangkat keras minimal dan rekomendasi yang diperlukan untuk menjalan
    * **Media Penyimpanan**: Sisa ruang harddisk/SSD minimal 1 GB.
    * **Perangkat Input**: Keyboard, Mouse/Touchpad, dan Monitor dengan resolusi minimal 1366x768 piksel.
 
-2. **Sisi Server (Hosting Platform)**:
-   * **CPU**: Minimal 0.1 Shared CPU Core (Menggunakan spesifikasi *Hobby/Free Instance* di Render).
-   * **RAM**: Minimal 512 MB.
-   * **Storage**: SSD dengan kapasitas penyimpanan dinamis.
+2. **Sisi Server (Hosting Platform - Hostinger VPS)**:
+   * **CPU**: 1 vCPU Cores.
+   * **RAM**: Minimal 1 GB (atau RAM sesuai spesifikasi VPS Hostinger KVM).
+   * **Storage**: SSD Disk dengan kapasitas penyimpanan dinamis.
 
 ---
 
@@ -149,7 +149,7 @@ Indikator pertanyaan yang diajukan kepada responden meliputi:
 ### 5.1 Kesimpulan
 Berdasarkan hasil analisis, perancangan, implementasi, dan pengujian yang dilakukan terhadap aplikasi **SiPus Digital** (Sistem Informasi Perpustakaan Digital), maka dapat ditarik beberapa kesimpulan utama sebagai berikut:
 
-1. **Sistem Berhasil Dirancang dan Diimplementasikan**: Aplikasi perpustakaan digital berhasil dikembangkan secara utuh menggunakan framework Laravel 12, database MySQL, dan dideploy secara online di platform Render. Pemanfaatan Dockerfile *multi-stage build* berhasil menjamin konsistensi performa aplikasi antara lingkungan lokal dan server cloud produksi.
+1. **Sistem Berhasil Dirancang dan Diimplementasikan**: Aplikasi perpustakaan digital berhasil dikembangkan secara utuh menggunakan framework Laravel 12, database MySQL, dan dideploy secara online di server Hostinger VPS. Integrasi Nginx sebagai web server utama dan PHP 8.4-FPM berhasil menjamin performa aplikasi yang cepat, stabil, dan aman.
 2. **Fungsionalitas Booking Online dan Tiket PDF Berjalan Sempurna**: Fitur reservasi atau booking buku secara mandiri oleh mahasiswa secara online berhasil diimplementasikan dengan baik. Sistem mampu secara otomatis mencatat antrean, mengirimkan notifikasi persetujuan admin, memotong stok buku secara akurat, serta memfasilitasi pencetakan tiket antrean dalam format dokumen PDF sebagai bukti transaksi fisik yang sah.
 3. **Efisiensi Layanan Perpustakaan Meningkat Secara Signifikan**: Berdasarkan hasil pengujian UAT (92% untuk indikator efisiensi), sistem baru ini terbukti menghemat waktu layanan perpustakaan secara drastis. Mahasiswa tidak perlu lagi datang secara fisik hanya untuk mengecek ketersediaan buku atau mengantre di meja pelayanan perpustakaan, karena proses booking dan pengecekan stok buku dapat diakses secara real-time dari mana saja.
 

@@ -39,73 +39,21 @@ Kebutuhan perangkat keras minimal dan rekomendasi yang diperlukan untuk menjalan
 ---
 
 ### 4.2 Implementasi Basis Data (Database)
-Basis data diimplementasikan pada PostgreSQL (Supabase) dengan relasi antar tabel yang terintegrasi untuk mendukung seluruh aktivitas transaksi perpustakaan digital. Struktur fisik dari masing-masing tabel yang digunakan dijabarkan secara rinci sebagai berikut:
+Basis data diimplementasikan menggunakan PostgreSQL (Supabase) untuk mendukung seluruh aktivitas transaksi perpustakaan digital secara online. Relasi antar-tabel diatur secara terintegrasi dan efisien.
 
-#### 1. Tabel `users`
-Tabel ini berfungsi untuk menyimpan seluruh informasi data pengguna sistem, baik admin perpustakaan maupun mahasiswa (anggota).
-* Atribut Utama:
-  * `id` (BigInteger, Primary Key, Auto Increment): ID unik untuk setiap pengguna.
-  * `name` (Varchar, 255): Nama lengkap pengguna.
-  * `username` (Varchar, 255, Unique): Username untuk autentikasi login.
-  * `email` (Varchar, 255, Unique): Alamat email pengguna.
-  * `password` (Varchar, 255): Kata sandi pengguna yang telah dienkripsi menggunakan algoritma *Bcrypt*.
-  * `role` (Enum: `admin`, `user`): Menentukan tingkat hak akses dalam sistem.
-  * `identifier` (Varchar, 50, Nullable): NIM untuk mahasiswa atau NIDN/NIP untuk staf perpustakaan.
-  * `phone` (Varchar, 20, Nullable): Nomor telepon pengguna untuk keperluan kontak.
-  * `avatar` (Varchar, 255, Nullable): Path penyimpanan foto profil pengguna.
-  * `created_at` & `updated_at` (Timestamp): Informasi waktu pembuatan dan pembaruan data.
+Berikut adalah daftar tabel utama yang digunakan pada database sistem **SiPus Digital** beserta fungsinya:
 
-#### 2. Tabel `categories`
-Tabel ini digunakan untuk mengklasifikasikan koleksi buku ke dalam kategori tertentu guna mempermudah proses pencarian oleh mahasiswa.
-* Atribut Utama:
-  * `id` (BigInteger, Primary Key, Auto Increment): ID unik kategori.
-  * `name` (Varchar, 255): Nama kategori (misal: "Sains", "Fiksi", "Teknologi").
-  * `slug` (Varchar, 255, Unique): Representasi URL ramah pengguna untuk pencarian kategori.
+| No. | Nama Tabel | Fungsi / Deskripsi |
+|---|---|---|
+| 1 | `users` | Menyimpan data identitas dan akun pengguna (Admin/Petugas dan Mahasiswa). |
+| 2 | `categories` | Menyimpan kategori buku untuk mempermudah pencarian koleksi. |
+| 3 | `books` | Menyimpan detail katalog koleksi buku perpustakaan. |
+| 4 | `queues` | Mencatat antrean reservasi (booking) buku yang diajukan mahasiswa. |
+| 5 | `loans` | Mencatat transaksi peminjaman, tanggal jatuh tempo, pengembalian, dan denda. |
+| 6 | `notifications` | Menyimpan pesan pemberitahuan status transaksi untuk pengguna. |
+| 7 | `cart_items` | Menyimpan keranjang pilihan buku sementara sebelum dikonfirmasi. |
 
-#### 3. Tabel `books`
-Tabel ini berfungsi untuk menyimpan seluruh katalog koleksi buku yang tersedia di perpustakaan digital.
-* Atribut Utama:
-  * `id` (BigInteger, Primary Key, Auto Increment): ID unik buku.
-  * `title` (Varchar, 255): Judul buku.
-  * `author` (Varchar, 255): Penulis atau pengarang buku.
-  * `description` (Text): Sinopsis atau deskripsi singkat mengenai isi buku.
-  * `stock` (Integer): Jumlah fisik buku yang tersedia di perpustakaan.
-  * `cover` (Varchar, 255, Nullable): Path lokasi file gambar cover buku di direktori penyimpanan.
-  * `category_id` (BigInteger, Foreign Key): Menghubungkan buku ke tabel `categories` (on delete cascade).
-
-#### 4. Tabel `queues`
-Tabel ini digunakan untuk mencatat antrean pengajuan pemesanan (booking) buku yang diajukan oleh mahasiswa sebelum disetujui oleh admin.
-* Atribut Utama:
-  * `id` (BigInteger, Primary Key, Auto Increment): ID unik antrean.
-  * `user_id` (BigInteger, Foreign Key): Terhubung ke tabel `users`.
-  * `book_id` (BigInteger, Foreign Key): Terhubung ke tabel `books`.
-  * `status` (Enum: `menunggu`, `disetujui`): Status pengajuan antrean dari mahasiswa.
-
-#### 5. Tabel `loans`
-Tabel utama transaksi yang mencatat seluruh aktivitas peminjaman dan pengembalian buku di perpustakaan.
-* Atribut Utama:
-  * `id` (BigInteger, Primary Key, Auto Increment): ID unik peminjaman.
-  * `user_id` (BigInteger, Foreign Key): Terhubung ke tabel `users`.
-  * `book_id` (BigInteger, Foreign Key): Terhubung ke tabel `books`.
-  * `borrowed_at` (Date, Nullable): Tanggal buku mulai diambil/dipinjam.
-  * `returned_at` (Date, Nullable): Tanggal buku dikembalikan oleh peminjam.
-  * `status` (Enum: `menunggu`, `dipinjam`, `dikembalikan`, `ditolak`): Status transaksi terkini.
-  * `fine` (Integer, Default: 0): Jumlah denda jika mahasiswa terlambat mengembalikan buku.
-
-#### 6. Tabel `notifications`
-Tabel ini berfungsi untuk menyimpan pesan pemberitahuan yang dikirimkan oleh sistem kepada pengguna.
-* Atribut Utama:
-  * `id` (BigInteger, Primary Key, Auto Increment): ID unik notifikasi.
-  * `user_id` (BigInteger, Foreign Key): Terhubung ke tabel `users`.
-  * `message` (Text): Isi pesan notifikasi (misal: "Pengajuan booking buku A telah disetujui").
-  * `read_at` (Timestamp, Nullable): Mencatat waktu notifikasi dibaca oleh pengguna.
-
-#### 7. Tabel `cart_items`
-Tabel penampung sementara (*temporary*) untuk menampung daftar buku pilihan mahasiswa sebelum mereka menekan tombol konfirmasi booking peminjaman.
-* Atribut Utama:
-  * `id` (BigInteger, Primary Key, Auto Increment): ID unik keranjang.
-  * `user_id` (BigInteger, Foreign Key): Terhubung ke tabel `users`.
-  * `book_id` (BigInteger, Foreign Key): Terhubung ke tabel `books`.
+*(Catatan: Silakan sisipkan tangkapan layar/screenshot database fisik dari Supabase atau phpMyAdmin di bawah ini untuk melengkapi laporan)*
 
 ---
 

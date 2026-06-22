@@ -10,10 +10,11 @@ RUN npm run build
 FROM php:8.3-apache
 RUN apt-get update && apt-get install -y \
     libpq-dev \
+    libmariadb-dev \
     zip \
     unzip \
     git \
-    && docker-php-ext-install pdo pdo_pgsql
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql
 
 # Enable Apache rewrite module
 RUN a2enmod rewrite

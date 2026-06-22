@@ -17,9 +17,9 @@ Pengembangan sistem **SiPus Digital** (Sistem Informasi Perpustakaan Digital) di
 4. **CSS Framework (Tailwind CSS v4.1.6)**: Digunakan untuk merancang antarmuka pengguna yang responsif (*responsive web design*). Tailwind CSS mempermudah penataan letak (*layouting*) menggunakan sistem grid dan flexbox, sehingga tampilan website tetap optimal saat diakses melalui perangkat desktop, tablet, maupun smartphone.
 5. **Database Management System (DBMS)**:
    * **SQLite (Lokal)**: Digunakan untuk mempercepat proses pengembangan awal di komputer lokal tanpa memerlukan konfigurasi server database yang kompleks.
-   * **PostgreSQL (Supabase)**: Digunakan pada lingkungan produksi (*live production*). Database ini ditempatkan di server cloud Supabase yang terhubung menggunakan teknologi *Connection Pooling* (port 6543) berbasis Supavisor untuk mengoptimalkan alokasi koneksi database dari server aplikasi.
+   * **MySQL**: Digunakan sebagai sistem manajemen basis data relasional (*relational database management system*) utama untuk menyimpan dan mengelola seluruh data transaksi perpustakaan digital secara terstruktur, aman, dan konsisten.
 6. **Library Ekspor Dokumen (Barryvdh Laravel DomPDF)**: Digunakan untuk mengubah representasi data HTML/CSS menjadi dokumen PDF secara otomatis. Fitur ini diimplementasikan pada pencetakan tiket antrean peminjaman buku untuk diunduh oleh mahasiswa.
-7. **Web Server & Containerization (Docker)**: Menggunakan Dockerfile *multi-stage build* untuk membungkus aplikasi. Tahap pertama (*node-builder*) mengompilasi aset JS dan CSS menggunakan Node.js, dan tahap kedua menyalin berkas aplikasi ke dalam server Apache dengan ekstensi PHP PostgreSQL (`pdo_pgsql`) yang siap dijalankan.
+7. **Web Server & Containerization (Docker)**: Menggunakan Dockerfile *multi-stage build* untuk membungkus aplikasi. Tahap pertama (*node-builder*) mengompilasi aset JS dan CSS menggunakan Node.js, dan tahap kedua menyalin berkas aplikasi ke dalam server Apache dengan ekstensi PHP MySQL (`pdo_mysql`) yang siap dijalankan.
 8. **Platform Hosting (Render PaaS)**: Digunakan untuk mendeploy aplikasi secara otomatis dari repositori GitHub secara terus-menerus (*Continuous Deployment*).
 
 #### 4.1.2 Spesifikasi Perangkat Keras (Hardware)
@@ -39,7 +39,7 @@ Kebutuhan perangkat keras minimal dan rekomendasi yang diperlukan untuk menjalan
 ---
 
 ### 4.2 Implementasi Basis Data (Database)
-Basis data diimplementasikan menggunakan PostgreSQL (Supabase) untuk mendukung seluruh aktivitas transaksi perpustakaan digital secara online. Relasi antar-tabel diatur secara terintegrasi dan efisien.
+Basis data diimplementasikan menggunakan MySQL untuk mendukung seluruh aktivitas transaksi perpustakaan digital secara online. Relasi antar-tabel diatur secara terintegrasi dan efisien.
 
 Berikut adalah daftar tabel utama yang digunakan pada database sistem **SiPus Digital** beserta fungsinya:
 
@@ -53,7 +53,7 @@ Berikut adalah daftar tabel utama yang digunakan pada database sistem **SiPus Di
 | 6 | `notifications` | Menyimpan pesan pemberitahuan status transaksi untuk pengguna. |
 | 7 | `cart_items` | Menyimpan keranjang pilihan buku sementara sebelum dikonfirmasi. |
 
-*(Catatan: Silakan sisipkan tangkapan layar/screenshot database fisik dari Supabase atau phpMyAdmin di bawah ini untuk melengkapi laporan)*
+*(Catatan: Silakan sisipkan tangkapan layar/screenshot database fisik dari MySQL atau phpMyAdmin di bawah ini untuk melengkapi laporan)*
 
 ---
 
@@ -149,7 +149,7 @@ Indikator pertanyaan yang diajukan kepada responden meliputi:
 ### 5.1 Kesimpulan
 Berdasarkan hasil analisis, perancangan, implementasi, dan pengujian yang dilakukan terhadap aplikasi **SiPus Digital** (Sistem Informasi Perpustakaan Digital), maka dapat ditarik beberapa kesimpulan utama sebagai berikut:
 
-1. **Sistem Berhasil Dirancang dan Diimplementasikan**: Aplikasi perpustakaan digital berhasil dikembangkan secara utuh menggunakan framework Laravel 12, database cloud PostgreSQL (Supabase), dan dideploy secara online di platform Render. Pemanfaatan Dockerfile *multi-stage build* berhasil menjamin konsistensi performa aplikasi antara lingkungan lokal dan server cloud produksi.
+1. **Sistem Berhasil Dirancang dan Diimplementasikan**: Aplikasi perpustakaan digital berhasil dikembangkan secara utuh menggunakan framework Laravel 12, database MySQL, dan dideploy secara online di platform Render. Pemanfaatan Dockerfile *multi-stage build* berhasil menjamin konsistensi performa aplikasi antara lingkungan lokal dan server cloud produksi.
 2. **Fungsionalitas Booking Online dan Tiket PDF Berjalan Sempurna**: Fitur reservasi atau booking buku secara mandiri oleh mahasiswa secara online berhasil diimplementasikan dengan baik. Sistem mampu secara otomatis mencatat antrean, mengirimkan notifikasi persetujuan admin, memotong stok buku secara akurat, serta memfasilitasi pencetakan tiket antrean dalam format dokumen PDF sebagai bukti transaksi fisik yang sah.
 3. **Efisiensi Layanan Perpustakaan Meningkat Secara Signifikan**: Berdasarkan hasil pengujian UAT (92% untuk indikator efisiensi), sistem baru ini terbukti menghemat waktu layanan perpustakaan secara drastis. Mahasiswa tidak perlu lagi datang secara fisik hanya untuk mengecek ketersediaan buku atau mengantre di meja pelayanan perpustakaan, karena proses booking dan pengecekan stok buku dapat diakses secara real-time dari mana saja.
 

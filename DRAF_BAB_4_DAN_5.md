@@ -172,22 +172,7 @@ Pengujian dilakukan terhadap **10 orang responden** yang terdiri dari 2 orang st
 * 2: Tidak Setuju (TS)
 * 1: Sangat Tidak Setuju (STS)
 
-Untuk menghitung persentase kelayakan dari hasil kuesioner, digunakan rumus persentase kelayakan berikut:
-
-![Rumus Persentase Kelayakan](formula_persentase.png)
-
-Di mana:
-* $P$ = Persentase Kelayakan (%)
-* $\sum X$ = Total Skor Jawaban Responden
-* $\text{Skor Maksimum}$ = Jumlah Responden $\times$ Skor Tertinggi Likert ($10 \times 5 = 50$)
-
-Rata-rata persentase kelayakan keseluruhan dihitung menggunakan rumus:
-
-![Rumus Rata-rata Kelayakan](formula_rata_rata.png)
-
-Di mana:
-* $\sum P$ = Jumlah Total Persentase Seluruh Indikator
-* $N$ = Jumlah Indikator Pertanyaan ($5$ pertanyaan)
+Analisis data hasil kuesioner dilakukan dengan menghitung persentase kelayakan pada masing-masing indikator pertanyaan. Persentase kelayakan diperoleh dengan membagi total skor jawaban responden dengan skor maksimum (yaitu hasil kali dari 10 responden dengan bobot nilai tertinggi 5, yang bernilai 50), kemudian dikalikan 100%. Setelah persentase kelayakan untuk setiap indikator diperoleh, dilakukan perhitungan rata-rata kelayakan keseluruhan dengan menjumlahkan seluruh nilai persentase kelayakan lalu dibagi dengan jumlah indikator pertanyaan (5 pertanyaan).
 
 #### 4.5.2 Kuesioner Pengujian
 Indikator pertanyaan yang diajukan kepada responden meliputi:

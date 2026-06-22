@@ -172,6 +172,23 @@ Pengujian dilakukan terhadap **10 orang responden** yang terdiri dari 2 orang st
 * 2: Tidak Setuju (TS)
 * 1: Sangat Tidak Setuju (STS)
 
+Untuk menghitung persentase kelayakan dari hasil kuesioner, digunakan rumus persentase kelayakan berikut:
+
+$$P = \frac{\sum X}{\text{Skor Maksimum}} \times 100\%$$
+
+Di mana:
+* $P$ = Persentase Kelayakan (%)
+* $\sum X$ = Total Skor Jawaban Responden
+* $\text{Skor Maksimum}$ = Jumlah Responden $\times$ Skor Tertinggi Likert ($10 \times 5 = 50$)
+
+Rata-rata persentase kelayakan keseluruhan dihitung menggunakan rumus:
+
+$$\text{Rata-rata Kelayakan} = \frac{\sum P}{N}$$
+
+Di mana:
+* $\sum P$ = Jumlah Total Persentase Seluruh Indikator
+* $N$ = Jumlah Indikator Pertanyaan ($5$ pertanyaan)
+
 #### 4.5.2 Kuesioner Pengujian
 Indikator pertanyaan yang diajukan kepada responden meliputi:
 1. **P1 (Usability)**: Apakah tampilan antarmuka aplikasi SiPus Digital mudah dipahami dan digunakan?

@@ -174,7 +174,7 @@ Pengujian dilakukan terhadap **10 orang responden** yang terdiri dari 2 orang st
 
 Untuk menghitung persentase kelayakan dari hasil kuesioner, digunakan rumus persentase kelayakan berikut:
 
-$$P = \frac{\sum X}{\text{Skor Maksimum}} \times 100\%$$
+![Rumus Persentase Kelayakan](formula_persentase.png)
 
 Di mana:
 * $P$ = Persentase Kelayakan (%)
@@ -183,7 +183,7 @@ Di mana:
 
 Rata-rata persentase kelayakan keseluruhan dihitung menggunakan rumus:
 
-$$\text{Rata-rata Kelayakan} = \frac{\sum P}{N}$$
+![Rumus Rata-rata Kelayakan](formula_rata_rata.png)
 
 Di mana:
 * $\sum P$ = Jumlah Total Persentase Seluruh Indikator
